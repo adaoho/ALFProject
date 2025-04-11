@@ -4,4 +4,11 @@ export const dataSupportPeople = [
   { id: 3, name: "Asti Purnamasari", title: "Associate", category: 2 },
   { id: 4, name: "Reyhandi Pradana", title: "Associate", category: 2 },
   { id: 5, name: "Sultan Rifqi", title: "Associate", category: 2 },
+  { id: 6, name: "Fenny", title: "Trainee Associate", category: 2 },
+  {
+    id: 7,
+    name: "Kharisma Insani Wibawa",
+    title: "Trainee Associate",
+    category: 2,
+  },
 ];

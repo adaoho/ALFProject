@@ -40,16 +40,16 @@ const MobileOurPeople = () => {
           data-aos="fade-up"
           className="w-full bg-ang-prm-blue grid grid-cols-1 h-[640px]"
         >
-          <div className="bg-white flex w-full h-full justify-center items-center overflow-hidden relative">
-            <div className="bg-ang-prm-text/20 absolute w-full h-full z-10"></div>
+          <div className="relative flex items-center justify-center w-full h-full overflow-hidden bg-white">
+            <div className="absolute z-10 w-full h-full bg-ang-prm-text/20"></div>
             <img
               src={ImageTeamAnagata}
               alt=""
-              className="w-full h-full object-cover grayscale contrast-125"
+              className="object-cover w-full h-full grayscale contrast-125"
             />
           </div>
-          <div className="bg-ang-prm-blues h-full flex w-full justify-center items-start flex-col pl-4">
-            <div className="flex gap-x-3 items-center mb-4">
+          <div className="flex flex-col items-start justify-center w-full h-full pl-4 bg-ang-prm-blues">
+            <div className="flex items-center mb-4 gap-x-3">
               <img src={IconLogo} alt="icon-anagata" className="h-4" />
               <h1 className="text-[16px] text-white">Our People</h1>
             </div>
@@ -70,7 +70,7 @@ const MobileOurPeople = () => {
           <div
             data-aos="fade-up"
             data-aos-delay={"100"}
-            className="flex flex-col gap-y-8 pb-4"
+            className="flex flex-col pb-4 gap-y-8"
           >
             <div className="h-[1px] w-full bg-gray-300"></div>
             <h1 className="text-[32px] font-bold text-ang-prm-gray">
@@ -78,7 +78,7 @@ const MobileOurPeople = () => {
             </h1>
           </div>
 
-          <div className="w-full grid grid-cols-1 gap-8 gap-y-16">
+          <div className="grid w-full grid-cols-1 gap-8 gap-y-16">
             {dataKeyPeople.map(
               (data, index) =>
                 data?.seeProfile && (
@@ -110,7 +110,7 @@ const MobileOurPeople = () => {
                           setDrawerPeople({ drawer: true, indexPeople: index })
                         );
                       }}
-                      className="button-outline-red w-fit mt-5"
+                      className="mt-5 button-outline-red w-fit"
                     >
                       <h1>See full profile</h1>
                       <BsArrowUpRight />
@@ -140,14 +140,14 @@ const MobileOurPeople = () => {
           <div
             data-aos="fade-up"
             data-aos-offset="100"
-            className="w-full grid grid-cols-1 gap-y-4 py-8"
+            className="grid w-full grid-cols-1 py-8 gap-y-4"
           >
             {dataSupportPeople?.map((data, index) => {
               return (
                 data?.category === 1 && (
                   <div
                     key={"support-people-1" + index}
-                    className="flex gap-x-4 items-center"
+                    className="flex items-center gap-x-4"
                   >
                     <h1 className="text-[24px]">⁠{data?.name}</h1>
                     <h1>-</h1>
@@ -160,21 +160,21 @@ const MobileOurPeople = () => {
           <div
             data-aos="fade-up"
             data-aos-offset="100"
-            className="w-full pl-3 pb-2"
+            className="w-full pb-2 pl-3"
           >
             <div className="h-[0.8px] w-full bg-gray-400"></div>
           </div>
           <div
             data-aos="fade-up"
             data-aos-offset="100"
-            className="w-full grid grid-cols-1 py-8 gap-y-4"
+            className="grid w-full grid-cols-1 py-8 gap-y-4"
           >
             {dataSupportPeople?.map((data, index) => {
               return (
                 data?.category === 2 && (
                   <div
                     key={"support-people-1" + index}
-                    className="flex gap-x-4 items-center"
+                    className="flex flex-wrap items-center gap-x-4"
                   >
                     <h1 className="text-[24px]">⁠{data?.name}</h1>
                     <h1>-</h1>
