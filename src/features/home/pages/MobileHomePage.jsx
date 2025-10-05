@@ -24,6 +24,8 @@ import {
   Award5,
   Award6,
   Award7,
+  Award8,
+  Award9,
   BgJakarta,
   BgSurabaya,
   LogoAnagataWhySection,
@@ -477,6 +479,22 @@ const MobileHomePage = () => {
                   src={Award6}
                   alt=""
                   className="h-20 object-contain"
+                />
+              </div>
+              <div className="flex w-full col-span-3 justify-center items-center gap-x-8">
+                <img
+                  data-aos="fade-up"
+                  data-aos-delay="400"
+                  src={Award8}
+                  alt=""
+                  className="h-24 object-contain"
+                />
+                <img
+                  data-aos="fade-up"
+                  data-aos-delay="400"
+                  src={Award9}
+                  alt=""
+                  className="h-24 object-contain"
                 />
               </div>
             </div>

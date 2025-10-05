@@ -21,6 +21,8 @@ import {
   Award5,
   Award6,
   Award7,
+  Award8,
+  Award9,
   BgContactUs,
 } from "../../home/assets/export-assets";
 import { Button, Dialog, DialogBody } from "@material-tailwind/react";
@@ -154,7 +156,7 @@ const OurFirm = () => {
           <div
             data-aos="fade-up"
             data-aos-offset="150"
-            className="flex w-full items-center justify-between mt-8"
+            className="flex w-full items-center justify-center mt-12 flex-wrap gap-x-12 gap-y-5"
           >
             <img data-aos="fade-up" src={Award1} alt="" className="h-32" />
             <img
@@ -191,6 +193,20 @@ const OurFirm = () => {
               src={Award6}
               alt=""
               className="h-32"
+            />
+            <img
+              data-aos="fade-up"
+              data-aos-delay="500"
+              src={Award8}
+              alt=""
+              className="h-36"
+            />
+            <img
+              data-aos="fade-up"
+              data-aos-delay="500"
+              src={Award9}
+              alt=""
+              className="h-36"
             />
           </div>
         </div>
