@@ -248,7 +248,7 @@ const NewsUpdate = () => {
             )}
           </div>
 
-          <div className="w-full flex justify-center items-center h-fit mt-8">
+          <div className="w-full flex justify-center items-center h-fit mt-8 ">
             {data?.totalPosts > 18 && (
               <Pagination
                 active={page}

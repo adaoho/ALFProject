@@ -12,11 +12,6 @@
   display: none;
 }
 
-::-webkit-scrollbar {
-  width: none;
-  display: none;
-}
-
 ::-webkit-scrollbar-track {
   display: none;
 }

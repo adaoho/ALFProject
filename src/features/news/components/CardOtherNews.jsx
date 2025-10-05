@@ -12,10 +12,10 @@ const CardOtherNews = ({ image, title, description, slug }) => {
         alt=""
         className="object-cover w-full h-[50%] rounded-2xl"
       />
-      <div className="flex h-[18%] flex-col items-center justify-center">
+      <div className="flex h-[18%] flex-col items-start justify-center">
         <h1
           dangerouslySetInnerHTML={{ __html: title }}
-          className="text-[20px] font-bold text-ang-prm-blue truncate-threeline"
+          className="text-[20px] font-bold text-ang-prm-blue truncate-threeline text-left"
         />
       </div>
       <p

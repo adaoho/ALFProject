@@ -166,7 +166,8 @@ const DrawerPeople = () => {
                 </div>
                 <div className="flex gap-x-2 items-center cursor-pointer hover:underline transition-all font-inter text-ang-prm-text">
                   <BsTelephoneFill className="size-5 ml-1" />
-                  {dataKeyPeople[indexPeople].phoneNumber}
+                  {/* {dataKeyPeople[indexPeople].phoneNumber} */}
+                  +62 21 5711707
                 </div>
               </div>
 
@@ -334,7 +335,8 @@ const DrawerPeople = () => {
                   </div>
                   <div className="flex gap-x-2 items-center cursor-pointer hover:underline transition-all font-inter text-ang-prm-text">
                     <BsTelephoneFill className="size-5" />
-                    {dataKeyPeople[indexPeople]?.phoneNumber}
+                    {/* {dataKeyPeople[indexPeople]?.phoneNumber} */}
+                    +62 21 5711707
                   </div>
                 </div>
               </div>

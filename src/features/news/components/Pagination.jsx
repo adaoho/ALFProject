@@ -20,7 +20,7 @@ export function Pagination({ active, setActive, totalPages }) {
   };
 
   return (
-    <div className="flex items-center gap-4 w-full">
+    <div className="flex items-center gap-4 w-full justify-center">
       <Button
         variant="text"
         className="flex items-center gap-2 capitalize text-[14px]"
