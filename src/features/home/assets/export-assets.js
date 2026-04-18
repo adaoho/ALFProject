@@ -7,6 +7,9 @@ import Award6 from "../assets/award-6.png";
 import Award7 from "../assets/award-7.png";
 import Award8 from "../assets/award-8.png";
 import Award9 from "../assets/award-9.png";
+import Award10 from "../assets/award-10.png";
+import Award11 from "../assets/award-11.png";
+import Award12 from "../assets/award-12.png";
 import LogoAnagataWhySection from "../assets/why-choose-anagata-logo.png";
 import BgContactUs from "../assets/bg-contact-us.png";
 import BgJakarta from "../assets/bg-jakarta.png";
@@ -42,6 +45,9 @@ export {
   Award7,
   Award8,
   Award9,
+  Award10,
+  Award11,
+  Award12,
   LogoAnagataWhySection,
   BgContactUs,
   BgJakarta,

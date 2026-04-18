@@ -31,16 +31,10 @@ const OurPracticesDetail = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const dataDetail = dataPracticeAreas?.find((data) => data.slug === slug);
-  const otherPractices = dataPracticeAreas?.filter(
-    (data) => data.slug !== slug
-  );
-  const dataOurPeople = dataKeyPeople?.filter((person) =>
-    dataDetail?.ourPeople?.includes(person?.id)
-  );
+  const otherPractices = dataPracticeAreas?.filter((data) => data.slug !== slug);
+  const dataOurPeople = dataKeyPeople?.filter((person) => dataDetail?.ourPeople?.includes(person?.id));
   const dataDetailSpecialist = openDialog
-    ? dataDetail?.specialistServiceArea?.find(
-        (find) => find?.id === specialistIndex
-      )
+    ? dataDetail?.specialistServiceArea?.find((find) => find?.id === specialistIndex)
     : "";
 
   useEffect(() => {
@@ -52,9 +46,7 @@ const OurPracticesDetail = () => {
     return () => Aos.refresh();
   }, []);
 
-  const { leftColumn, rightColumn } = splitIntoTwoColumns(
-    dataDetail?.specialistServiceArea
-  );
+  const { leftColumn, rightColumn } = splitIntoTwoColumns(dataDetail?.specialistServiceArea);
 
   const renderNotableCredentials = (notableCredentials) => {
     const chunkArray = (arr, size) => {
@@ -67,11 +59,7 @@ const OurPracticesDetail = () => {
 
     return chunks.map((chunk, chunkIndex) => (
       <div className="overflow-auto snap-x" key={`chunk-${chunkIndex}`}>
-        <div
-          data-aos="fade-up"
-          data-aos-delay="100"
-          className="w-fit flex gap-x-4 mt-4 snap-mandatory"
-        >
+        <div data-aos="fade-up" data-aos-delay="100" className="w-fit flex gap-x-4 mt-4 snap-mandatory">
           {chunk?.map((data, index) => (
             <CardNotablePractice
               key={`notablePractice-${chunkIndex}-${index}`}
@@ -89,10 +77,7 @@ const OurPracticesDetail = () => {
       <Header />
       <MainLayout className={"hidden lg:flex"}>
         {/* Main Header */}
-        <div
-          data-aos="fade-up"
-          className="w-full bg-ang-prm-blue grid grid-cols-2 h-[495px]"
-        >
+        <div data-aos="fade-up" className="w-full bg-ang-prm-blue grid grid-cols-2 h-[495px]">
           <div className="bg-ang-prm-blues flex w-full h-full justify-center items-start flex-col pl-24 pr-9 gap-y-5">
             <div
               onClick={() => navigate("/our-practice-areas")}
@@ -112,30 +97,17 @@ const OurPracticesDetail = () => {
             />
           </div>
           <div className="flex w-full h-full justify-center items-center overflow-hidden">
-            <img
-              src={dataDetail?.image}
-              alt=""
-              className="w-full h-full object-cover"
-            />
+            <img src={dataDetail?.image} alt="" className="w-full h-full object-cover" />
           </div>
         </div>
 
         {/* Sub Categories Content */}
-        <section
-          id="sub-categories"
-          className="w-full bg-ang-prm-blackbg flex flex-col gap-y-4 px-24 py-32"
-        >
-          <div
-            data-aos="fade-up"
-            data-aos-delay="150"
-            className="flex flex-col gap-y-6 w-full"
-          >
+        <section id="sub-categories" className="w-full bg-ang-prm-blackbg flex flex-col gap-y-4 px-24 py-32">
+          <div data-aos="fade-up" data-aos-delay="150" className="flex flex-col gap-y-6 w-full">
             <div className="h-[1px] w-full bg-white/30"></div>
             <div className="flex gap-x-4 items-center">
               <img src={IconLogo} alt="icon-anagata" className="h-6" />
-              <h1 className="text-[32px] text-white">
-                Specialist Services Area
-              </h1>
+              <h1 className="text-[32px] text-white">Specialist Services Area</h1>
             </div>
           </div>
 
@@ -198,9 +170,7 @@ const OurPracticesDetail = () => {
 
             <div className="flex gap-x-4 items-center">
               <img src={IconLogo} alt="icon-anagata" className="h-6" />
-              <h1 className="text-[32px] text-ang-prm-text">
-                Notable Credentials
-              </h1>
+              <h1 className="text-[32px] text-ang-prm-text">Notable Credentials</h1>
             </div>
           </div>
 
@@ -215,29 +185,15 @@ const OurPracticesDetail = () => {
 
           {renderNotableCredentials(dataDetail?.notableCredentials)}
 
-          <h3
-            data-aos="fade-up"
-            data-aos-delay="100"
-            className="text-[16px] italic text-gray-800 w-[90%] leading-7"
-          >
-            <b>Note:</b> Due to strict confidentiality, we are unable to share
-            the names of our clients. However, we can provide descriptive
-            information about the clients and the types of work performed for
-            them.
+          <h3 data-aos="fade-up" data-aos-delay="100" className="text-[16px] italic text-gray-800 w-[90%] leading-7">
+            <b>Note:</b> Due to strict confidentiality, we are unable to share the names of our clients. However, we can
+            provide descriptive information about the clients and the types of work performed for them.
           </h3>
 
           {/* Banner Image Practice Area */}
-          <div
-            data-aos="fade-up"
-            data-aos-delay="100"
-            className="relative w-full h-fit rounded-2xl overflow-hidden mt-2"
-          >
+          <div data-aos="fade-up" data-aos-delay="100" className="relative w-full h-fit rounded-2xl overflow-hidden mt-2">
             <div className="absolute z-10 w-full h-full bg-ang-prm-black/30"></div>
-            <img
-              src={BannerPracticeDetail}
-              alt=""
-              className="h-[337px] object-cover rounded-2xl grayscale w-full"
-            />
+            <img src={BannerPracticeDetail} alt="" className="h-[337px] object-cover rounded-2xl grayscale w-full" />
           </div>
         </section>
 
@@ -255,15 +211,11 @@ const OurPracticesDetail = () => {
               <h1 className="text-[32px] text-ang-prm-text">Our People</h1>
             </div>
             <h2 className="text-[18px] -mt-4 text-gray-600">
-              Our lawyers are renowned in their practice areas, each bringing.
+              Our lawyers are renowned in their practice areas, each bringing practical solutions.
             </h2>
           </div>
 
-          <div
-            data-aos="fade-up"
-            data-aos-delay="100"
-            className="grid grid-cols-3 w-full mt-7 gap-y-12"
-          >
+          <div data-aos="fade-up" data-aos-delay="100" className="grid grid-cols-3 w-full mt-7 gap-y-12">
             {dataOurPeople?.map((data, index) => {
               return (
                 <CardProfile
@@ -302,24 +254,17 @@ const OurPracticesDetail = () => {
                 onClick={() => navigate("/our-practice-areas")}
                 className="flex gap-x-2 items-center group cursor-pointer transition-all"
               >
-                <h1 className="text-[24px] lg:text-[32px] text-ang-prm-text  ">
-                  Other Practice Areas
-                </h1>
+                <h1 className="text-[24px] lg:text-[32px] text-ang-prm-text  ">Other Practice Areas</h1>
                 <BsArrowUpRight className="size-6 mt-0.5 group-hover:text-ang-prm-red transition-all group-hover:translate-x-1 group-hover:-translate-y-0.5" />
               </div>
             </div>
             <h2 className="text-[18px] text-gray-600 max-w-[70%] leading-8">
-              We provide strategic legal solutions across diverse practice
-              areas, supporting startups to global corporations in navigating
-              challenges and driving growth.
+              We provide strategic legal solutions across diverse practice areas, supporting startups to global corporations
+              in navigating challenges and driving growth.
             </h2>
           </div>
 
-          <div
-            data-aos="fade-up"
-            data-aos-delay="100"
-            className="grid grid-cols-4 w-full mt-7 gap-x-5"
-          >
+          <div data-aos="fade-up" data-aos-delay="100" className="grid grid-cols-4 w-full mt-7 gap-x-5">
             {/* Card Ohter Practices */}
             {otherPractices.slice(0, 4).map((data, index) => {
               return (
@@ -351,9 +296,7 @@ const OurPracticesDetail = () => {
       {/* Dialog for Specialist Service */}
       <Dialog open={openDialog} handler={() => setOpenDialog(false)} children>
         <div className="p-8 w-full h-full flex flex-col relative">
-          <h2 className="font-bold text-[20px] text-ang-prm-red max-w-[95%]">
-            {dataDetailSpecialist?.title}
-          </h2>
+          <h2 className="font-bold text-[20px] text-ang-prm-red max-w-[95%]">{dataDetailSpecialist?.title}</h2>
 
           <div className="h-[1px] w-full border-b-[1px] border-gray-600/40 border-dashed my-5"></div>
           <div className="flex flex-col gap-y-3">
@@ -366,10 +309,7 @@ const OurPracticesDetail = () => {
             })}
           </div>
 
-          <AiOutlineClose
-            onClick={() => setOpenDialog(false)}
-            className="absolute right-8 top-9 size-6"
-          />
+          <AiOutlineClose onClick={() => setOpenDialog(false)} className="absolute right-8 top-9 size-6" />
         </div>
       </Dialog>
     </>

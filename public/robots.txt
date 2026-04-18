@@ -1,0 +1,50 @@
+# Allow all crawlers including AI/LLM bots
+User-agent: *
+Allow: /
+
+# Specific AI/LLM User Agents
+# OpenAI GPTBot
+User-agent: GPTBot
+Allow: /
+
+# Google Gemini
+User-agent: Google-Extended
+Allow: /
+
+# Anthropic Claude
+User-agent: Claude-Web
+Allow: /
+
+# Common Crawl
+User-agent: CCBot
+Allow: /
+
+# Meta AI
+User-agent: FacebookBot
+Allow: /
+
+# Perplexity AI
+User-agent: PerplexityBot
+Allow: /
+
+# Cohere
+User-agent: cohere-ai
+Allow: /
+
+# AI2 Bot (Allen Institute for AI)
+User-agent: ai2-bot
+Allow: /
+
+# Applebot-Extended
+User-agent: Applebot-Extended
+Allow: /
+
+# Bytespider (ByteDance)
+User-agent: Bytespider
+Allow: /
+
+# Crawl delay (polite crawling)
+Crawl-delay: 1
+
+# Sitemap location
+Sitemap: https://www.anagatalaw.com/sitemap.xml

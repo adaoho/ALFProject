@@ -3,12 +3,6 @@ export const dataSupportPeople = [
   { id: 2, name: "James Hutagaol", title: "Of Counsel", category: 1 },
   { id: 3, name: "Asti Purnamasari", title: "Associate", category: 2 },
   { id: 4, name: "Reyhandi Pradana", title: "Associate", category: 2 },
-  { id: 5, name: "Sultan Rifqi", title: "Associate", category: 2 },
-  { id: 6, name: "Fenny", title: "Trainee Associate", category: 2 },
-  {
-    id: 7,
-    name: "Kharisma Insani Wibawa",
-    title: "Trainee Associate",
-    category: 2,
-  },
+  { id: 5, name: "Kharisma Insani Wibawa", title: "Associate", category: 2 },
+  { id: 6, name: "Mario Jeremia Oliverdo", title: "Associate", category: 2 },
 ];

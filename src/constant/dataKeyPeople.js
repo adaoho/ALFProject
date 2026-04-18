@@ -1,11 +1,4 @@
-import {
-  MarvinOctavdio,
-  MayoFalmonti,
-  MochFahri,
-  MuhammadRamzi,
-  RinaldiRaymond,
-  RizaBuditomo,
-} from "../assets/images/people/export-assets";
+import { MarvinOctavdio, MochFahri, MuhammadRamzi, RinaldiRaymond, RizaBuditomo } from "../assets/images/people/export-assets";
 
 export const dataKeyPeople = [
   {
@@ -20,11 +13,7 @@ export const dataKeyPeople = [
     award: true,
     linkedin: "Riza Buditomo",
     phoneNumber: "+628159110720",
-    education: [
-      "University of Indonesia Diploma Accounting (2002)",
-      "University of Indonesia B.A. Law",
-      "University of California, UC Davis",
-    ],
+    education: ["University of Indonesia Diploma Accounting (2002)", "University of Indonesia B.A. Law", "University of California, UC Davis"],
     email: "riza.buditomo@anagatalaw.com",
     keyPractices: [
       "Tax",
@@ -52,18 +41,7 @@ export const dataKeyPeople = [
     phoneNumber: "+628563212629",
     education: ["University of Airlangga B.A. Law"],
     email: "muhammad.ramzi@anagatalaw.com",
-    keyPractices: [
-      "International Trade",
-      "Supply Chain & FTA, Merger & Acquisitions",
-      "Corporate/commercials",
-      "Retail and Commerce (including e-commerce and direct selling)",
-      "TMT",
-      "PDP",
-      "Manufacturing",
-      "Real Estate",
-      "Sport",
-      "Automotive",
-    ],
+    keyPractices: ["International Trade", "Supply Chain & FTA, Merger & Acquisitions", "Corporate/commercials", "Retail and Commerce (including e-commerce and direct selling)", "TMT", "PDP", "Manufacturing", "Real Estate", "Sport", "Automotive"],
   },
   {
     id: 3,
@@ -76,19 +54,9 @@ export const dataKeyPeople = [
     award: false,
     linkedin: "Marvin Octavdio",
     phoneNumber: "+6281332738300",
-    education: [
-      "University of Indonesia, Bachelor of Law",
-      "New York University - Master of Laws (LL.M) in International Taxation",
-    ],
+    education: ["University of Indonesia, Bachelor of Law", "New York University - Master of Laws (LL.M) in International Taxation"],
     email: "marvin.octavdio@anagatalaw.com",
-    keyPractices: [
-      "Tax Advisory",
-      "Tax Litigation",
-      "International Tax",
-      "Indirect Tax",
-      "Tax Incentives",
-      "Cross-Border Transaction",
-    ],
+    keyPractices: ["Tax Advisory", "Tax Litigation", "International Tax", "Indirect Tax", "Tax Incentives", "Cross-Border Transaction"],
   },
   {
     id: 4,
@@ -101,18 +69,9 @@ export const dataKeyPeople = [
     award: false,
     linkedin: "Mochamad Fachri",
     phoneNumber: "+628159101030",
-    education: [
-      "University of Padjadjaran B.A. Law",
-      "Colombia University Master of Laws- LLM",
-    ],
+    education: ["University of Padjadjaran B.A. Law", "Colombia University Master of Laws- LLM"],
     email: "mochamad.fachri@anagatalaw.com",
-    keyPractices: [
-      "Company Law",
-      "Foreign Investment",
-      "Market Entry",
-      "Competition Law",
-      "Consumer Protection",
-    ],
+    keyPractices: ["Company Law", "Foreign Investment", "Market Entry", "Competition Law", "Consumer Protection"],
   },
   {
     id: 5,
@@ -125,11 +84,7 @@ export const dataKeyPeople = [
     award: false,
     linkedin: "Rinaldi Raymond",
     phoneNumber: "+6281808749666",
-    education: [
-      "Ernst Abbe Hochschule Jena University of Applied Sciences, Germany. MBA",
-      "South Westphalia University of Applied Sciences, Germany. B.A",
-      "Swiss German University, Indonesia. S.E",
-    ],
+    education: ["Ernst Abbe Hochschule Jena University of Applied Sciences, Germany. MBA", "South Westphalia University of Applied Sciences, Germany. B.A", "Swiss German University, Indonesia. S.E"],
     email: "rinaldi.raymond@anagatalaw.com",
     keyPractices: [
       "International Trade & Supply Chain",
@@ -152,10 +107,7 @@ export const dataKeyPeople = [
     award: false,
     linkedin: "Mayo Folmanti",
     phoneNumber: "+628158710770",
-    education: [
-      "University of Indonesia, Indonesia B Law in Economic Law",
-      "University of Indonesia, Indonesia Master of Law with specialty of Corporate Law",
-    ],
+    education: ["University of Indonesia, Indonesia B Law in Economic Law", "University of Indonesia, Indonesia Master of Law with specialty of Corporate Law"],
     email: "mayo.falmonti@anagatalaw.com",
     keyPractices: ["Trademark", "Industrial design", "Copyright", "Licensing"],
   },

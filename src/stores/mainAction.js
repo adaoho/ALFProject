@@ -4,6 +4,7 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 
 const endpointAnagata = import.meta.env.VITE_ENDPOINT;
 const endpointAnagataAdmin = import.meta.env.VITE_ENDPOINT_ADMIN;
+const wpBase = endpointAnagata?.replace("/wp-json/wp/v2", "");
 
 export const useFetchPosts = () => {
   return useQuery({
@@ -108,6 +109,22 @@ export const useFetchPageCoverPost = () => {
     },
     refetchOnWindowFocus: false,
     retry: false,
+  });
+};
+
+export const useFetchRankMathSEO = (pageUrl) => {
+  return useQuery({
+    queryKey: ["rankMathSEO", pageUrl],
+    queryFn: async () => {
+      const { data } = await axios.get(
+        `${wpBase}/wp-json/rankmath/v1/getHead?url=${encodeURIComponent(pageUrl)}`
+      );
+      return data;
+    },
+    enabled: Boolean(pageUrl),
+    refetchOnWindowFocus: false,
+    retry: false,
+    staleTime: 1000 * 60 * 5,
   });
 };
 

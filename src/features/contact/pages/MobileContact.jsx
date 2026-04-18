@@ -6,10 +6,7 @@ import { Button } from "@material-tailwind/react";
 import { Form, Formik } from "formik";
 import { usePostEmail } from "../../../stores/mainAction";
 import { toast } from "sonner";
-import {
-  BannerContactUs,
-  BannerContactUs2,
-} from "../../../assets/images/export-assets";
+import { BannerContactUs, BannerContactUs2 } from "../../../assets/images/export-assets";
 import MainLayout from "../../../components/layout/MainLayout";
 import TextReveal from "../../../components/animations/TextReveal";
 import Footer from "../../../components/ui/Footer";
@@ -31,22 +28,13 @@ const MobileContact = () => {
     <>
       <MainLayout
         className={"flex lg:hidden"}
-        title={"News and Updates - Anagata Law Firm"}
-        description={
-          "Delivering strategic legal solutions with global experience"
-        }
+        title={"Contact Us - Anagata Law Firm"}
+        description={"Delivering strategic legal solutions with global experience"}
       >
-        <div
-          data-aos="fade-up"
-          className="w-full bg-ang-prm-blue grid grid-cols-1 h-[665px]"
-        >
+        <div data-aos="fade-up" className="w-full bg-ang-prm-blue grid grid-cols-1 h-[665px]">
           <div className="bg-white flex w-full h-full justify-center items-center overflow-hidden relative">
             <div className="bg-ang-prm-text/20 absolute w-full h-full z-10"></div>
-            <img
-              src={BannerContactUs}
-              alt=""
-              className="w-full h-full object-cover grayscale contrast-100"
-            />
+            <img src={BannerContactUs} alt="" className="w-full h-full object-cover grayscale contrast-100" />
           </div>
           <div className="bg-ang-prm-blues h-full flex w-full justify-center items-start flex-col pl-4 -my-3 -mb-12">
             <div className="flex gap-x-4 items-center mb-4">
@@ -55,36 +43,34 @@ const MobileContact = () => {
             </div>
             <TextReveal
               textSize={"text-[24px]"}
-              text={
-                "Reach out today—your future problem solver is just a call or click away."
-              }
+              text={"Reach out today—your future problem solver is just a call or click away."}
             />
           </div>
         </div>
 
-        <section
-          id="our-core-practices"
-          className="w-full px-4 flex py-[3rem] flex-col gap-y-7 pb-[6rem]"
-        >
-          <div
-            data-aos="fade-up"
-            data-aos-delay={"100"}
-            data-aos-offset="20"
-            className="flex flex-col gap-y-8 pb-4"
-          >
-            <h1 className="text-[32px] font-bold text-ang-prm-gray">
-              Our Location
-            </h1>
+        <section id="our-core-practices" className="w-full px-4 flex py-[3rem] flex-col gap-y-7 pb-[6rem]">
+          <div data-aos="fade-up" data-aos-delay={"100"} data-aos-offset="20" className="flex flex-col gap-y-8 pb-4">
+            <h1 className="text-[32px] font-bold text-ang-prm-gray">Our Location</h1>
 
             <div className="w-full grid grid-cols-1 gap-y-14">
               <div className="flex flex-col gap-y-4">
-                <h2 className="text-ang-prm-red text-[18px] font-bold">
-                  Main Office (Jakarta)
-                </h2>
-                <p className="w-full">
-                  Wisma Nugra Santana, 16th floor Jl. Jenderal Sudirman Kav.7-8,
-                  Central Jakarta.
-                </p>
+                <h2 className="text-ang-prm-red text-[18px] font-bold">Main Office (Jakarta)</h2>
+                <p className="w-full">Wisma Nugra Santana, 16th floor Jl. Jenderal Sudirman Kav.7-8, Central Jakarta.</p>
+                <div className="border-t border-gray-200 pt-3 flex flex-col gap-y-0.5">
+                  <p className="text-[0.9rem] font-medium text-gray-700">Riza Buditomo</p>
+                  <a
+                    href="mailto:riza.buditomo@anagatalaw.com"
+                    className="text-[0.8rem] text-gray-400 hover:text-ang-prm-red transition-colors"
+                  >
+                    riza.buditomo@anagatalaw.com
+                  </a>
+                  <a
+                    href="tel:+622157117107"
+                    className="text-[0.8rem] text-gray-400 hover:text-ang-prm-gray transition-colors"
+                  >
+                    +62 21 5711707
+                  </a>
+                </div>
                 <iframe
                   frameBorder="0"
                   scrolling="no"
@@ -95,13 +81,23 @@ const MobileContact = () => {
                 ></iframe>
               </div>
               <div className="flex flex-col gap-y-4">
-                <h2 className="text-ang-prm-red text-[18px] font-bold">
-                  East Indonesian Desk (Surabaya)
-                </h2>
-                <p className="w-full">
-                  Urban Office Building, Jl. Dr. Insinyur H. Soekarno No. 470,
-                  Surabaya, East Java.
-                </p>
+                <h2 className="text-ang-prm-red text-[18px] font-bold">East Indonesian Desk (Surabaya)</h2>
+                <p className="w-full">Urban Office Building, Jl. Dr. Insinyur H. Soekarno No. 470, Surabaya, East Java.</p>
+                <div className="border-t border-gray-200 pt-3 flex flex-col gap-y-0.5">
+                  <p className="text-[0.9rem] font-medium text-gray-700">Riza Buditomo</p>
+                  <a
+                    href="mailto:riza.buditomo@anagatalaw.com"
+                    className="text-[0.8rem] text-gray-400 hover:text-ang-prm-red transition-colors"
+                  >
+                    riza.buditomo@anagatalaw.com
+                  </a>
+                  <a
+                    href="tel:+622157117107"
+                    className="text-[0.8rem] text-gray-400 hover:text-ang-prm-gray transition-colors"
+                  >
+                    +62 21 5711707
+                  </a>
+                </div>
                 <iframe
                   frameBorder="0"
                   scrolling="no"
@@ -109,6 +105,33 @@ const MobileContact = () => {
                   marginWidth="0"
                   className="h-[14rem] w-full rounded-2xl grayscale"
                   src={`https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3957.2920066882984!2d112.77816617576708!3d-7.3210601926871135!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2dd7faebe2700ef1%3A0xfe171ed437eedc34!2sUrban%20Office!5e0!3m2!1sid!2sid!4v1740910420779!5m2!1sid!2sid`}
+                ></iframe>
+              </div>
+              <div className="flex flex-col gap-y-4">
+                <h2 className="text-ang-prm-red text-[18px] font-bold">Singapore Desk (Singapore)</h2>
+                <p className="w-full">Taxise Asia LLC, 61 Robinson Road, #17-01A, Singapore 068893.</p>
+                <div className="border-t border-gray-200 pt-3 flex flex-col gap-y-0.5">
+                  <p className="text-[0.9rem] font-medium text-gray-700">Eugene Lim</p>
+                  <a
+                    href="mailto:Eugene.Lim@TaxiseAsia.com"
+                    className="text-[0.8rem] text-gray-400 hover:text-ang-prm-red transition-colors"
+                  >
+                    Eugene.Lim@TaxiseAsia.com
+                  </a>
+                  <a
+                    href="tel:+6589628202"
+                    className="text-[0.8rem] text-gray-400 hover:text-ang-prm-gray transition-colors"
+                  >
+                    +65 8962 8202
+                  </a>
+                </div>
+                <iframe
+                  frameBorder="0"
+                  scrolling="no"
+                  marginHeight="0"
+                  marginWidth="0"
+                  className="h-[14rem] w-full rounded-2xl grayscale"
+                  src={`https://maps.google.com/maps?q=61+Robinson+Road+Singapore+068893&t=&z=17&ie=UTF8&iwloc=&output=embed`}
                 ></iframe>
               </div>
             </div>
@@ -120,22 +143,10 @@ const MobileContact = () => {
           id="our-highly-motivated-people"
           className="w-full bg-gray-100 h-fit px-4 flex flex-col pt-[4rem] pb-[6rem]"
         >
-          <div
-            data-aos="fade-up"
-            data-aos-delay={"100"}
-            className="flex flex-col gap-y-8"
-          ></div>
-          <div
-            data-aos="fade-up"
-            data-aos-delay={"200"}
-            className="w-full grid grid-cols-1 mt-4 gap-y-12"
-          >
+          <div data-aos="fade-up" data-aos-delay={"100"} className="flex flex-col gap-y-8"></div>
+          <div data-aos="fade-up" data-aos-delay={"200"} className="w-full grid grid-cols-1 mt-4 gap-y-12">
             <div className="flex flex-col gap-y-4 z-20 bg-gray-500 rounded-2xl h-fit overflow-hidden relative">
-              <img
-                src={BannerContactUs2}
-                alt=""
-                className="w-full h-full object-cover absolute z-0 grayscale"
-              />
+              <img src={BannerContactUs2} alt="" className="w-full h-full object-cover absolute z-0 grayscale" />
 
               <div className="flex flex-col gap-y-5 z-10 px-8 bg-gray-800/90 py-14 h-fit">
                 <div data-aos="fade-up" className="flex gap-x-4 items-center">
@@ -143,26 +154,12 @@ const MobileContact = () => {
                   <h1 className="text-[18px] text-white">Contact Us</h1>
                 </div>
 
-                <h1
-                  data-aos="fade-up"
-                  data-aos-delay={"50"}
-                  className="font-bold text-[24px] text-white"
-                >
-                  Anagata offers capability and resources as a full-service
-                  firm.
+                <h1 data-aos="fade-up" data-aos-delay={"50"} className="font-bold text-[24px] text-white">
+                  Anagata offers capability and resources as a full-service firm.
                 </h1>
-                <div
-                  data-aos="fade-up"
-                  data-aos-delay={"70"}
-                  className="h-[1px] w-full bg-white/60 my-1"
-                ></div>
-                <h1
-                  data-aos="fade-up"
-                  data-aos-delay={"150"}
-                  className="font-light text-[20px] text-white"
-                >
-                  Our team is ready to assist you—feel free to contact us for
-                  any inquiries or assistance.
+                <div data-aos="fade-up" data-aos-delay={"70"} className="h-[1px] w-full bg-white/60 my-1"></div>
+                <h1 data-aos="fade-up" data-aos-delay={"150"} className="font-light text-[20px] text-white">
+                  Our team is ready to assist you—feel free to contact us for any inquiries or assistance.
                 </h1>
               </div>
             </div>
@@ -181,9 +178,7 @@ const MobileContact = () => {
               validationSchema={Yup.object({
                 first_name: Yup.string().required("First name is required"),
                 last_name: Yup.string().required("Last name is required"),
-                email: Yup.string()
-                  .email("Invalid email")
-                  .required("Email is required"),
+                email: Yup.string().email("Invalid email").required("Email is required"),
                 phone_number: Yup.string().required("Phone number is required"),
                 subject: Yup.string().required("Subject is required"),
                 message: Yup.string().required("Message is required"),
@@ -211,9 +206,7 @@ const MobileContact = () => {
                 return (
                   <Form className="w-full col-span-2">
                     <div className="flex flex-col gap-y-2 mb-16">
-                      <h1 className="text-[32px] font-bold text-ang-prm-gray ">
-                        Send Your Inquiries
-                      </h1>
+                      <h1 className="text-[32px] font-bold text-ang-prm-gray ">Send Your Inquiries</h1>
                       <div className="h-[1px] w-full bg-gray-300"></div>
                     </div>
                     <div
@@ -270,9 +263,7 @@ const MobileContact = () => {
                       <Button
                         children
                         type="submit"
-                        className={`${
-                          isPending ? "button-disabled" : "button-red"
-                        } w-[12rem]`}
+                        className={`${isPending ? "button-disabled" : "button-red"} w-[12rem]`}
                         disabled={isPending ? true : false}
                       >
                         {isPending ? "Sending ..." : "Send Inquires"}

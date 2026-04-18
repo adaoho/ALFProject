@@ -11,14 +11,14 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import { useFetchPosts } from "../../../stores/mainAction";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  Accordion,
-  AccordionHeader,
-  AccordionBody,
-} from "@material-tailwind/react";
+import { Accordion, AccordionHeader, AccordionBody } from "@material-tailwind/react";
 import { useNavigate } from "react-router-dom";
+import { motion, useInView, useMotionValue, useSpring } from "framer-motion";
 import {
   Award1,
+  Award10,
+  Award11,
+  Award12,
   Award2,
   Award3,
   Award5,
@@ -42,6 +42,33 @@ import Footer from "../../../components/ui/Footer";
 import "aos/dist/aos.css";
 import "swiper/css";
 import "swiper/css/navigation";
+import { imageDummy, logoDummy } from "../../../assets/dummy/export-assest";
+
+const AnimatedCounter = ({ value, suffix = "" }) => {
+  const ref = useRef(null);
+  const motionValue = useMotionValue(0);
+  const springValue = useSpring(motionValue, {
+    damping: 60,
+    stiffness: 100,
+  });
+  const isInView = useInView(ref, { once: true, margin: "0px" });
+
+  useEffect(() => {
+    if (isInView) {
+      motionValue.set(value);
+    }
+  }, [motionValue, isInView, value]);
+
+  useEffect(() => {
+    springValue.on("change", (latest) => {
+      if (ref.current) {
+        ref.current.textContent = Math.floor(latest) + suffix;
+      }
+    });
+  }, [springValue, suffix]);
+
+  return <span ref={ref}>0{suffix}</span>;
+};
 
 const MobileHomePage = () => {
   const dispatch = useDispatch();
@@ -75,10 +102,7 @@ const MobileHomePage = () => {
         <Header />
       </div>
       <MainLayout className={"flex lg:hidden"}>
-        <section
-          id="carousel-section"
-          className="h-[300px] w-full px-4 flex justify-center items-center"
-        >
+        <section id="carousel-section" className="h-[300px] w-full px-4 flex justify-center items-center">
           <div className="w-full rounded-3xl shadow-g-lg h-full mt-16 relative flex items-center justify-center">
             {/* Content Carousel */}
 
@@ -117,10 +141,7 @@ const MobileHomePage = () => {
                         />
                         {slide?.content && (
                           <div className="absolute">
-                            <SliderText
-                              title={slide?.content?.title}
-                              subtitle={slide?.content?.subtitle}
-                            />
+                            <SliderText title={slide?.content?.title} subtitle={slide?.content?.subtitle} />
                           </div>
                         )}
                       </div>
@@ -166,11 +187,7 @@ const MobileHomePage = () => {
                           <SwiperSlide key={index}>
                             <div className="flex flex-col gap-y-4 h-full w-full">
                               <div className="w-full h-[50%] flex justify-center items-center rounded-3xl overflow-hidden">
-                                <img
-                                  src={data?.featured_image_url}
-                                  alt=""
-                                  className="w-full h-full object-cover bg-white"
-                                />
+                                <img src={data?.featured_image_url} alt="" className="w-full h-full object-cover bg-white" />
                               </div>
                               <div className="flex flex-col gap-y-8 w-full justify-center">
                                 <div className="flex flex-col gap-y-2">
@@ -189,9 +206,7 @@ const MobileHomePage = () => {
                                 </div>
 
                                 <Button
-                                  onClick={() =>
-                                    navigate("/news-and-update/" + data?.slug)
-                                  }
+                                  onClick={() => navigate("/news-and-update/" + data?.slug)}
                                   children
                                   className="button-outline-white w-full"
                                 >
@@ -221,206 +236,91 @@ const MobileHomePage = () => {
         <div className="bg-ang-prm-red h-[5rem] absolute top-[19.5rem] w-full -z-10"></div>
 
         {/* Our Firm Content */}
-        <section
-          id="our-firm-section"
-          className="bg-ang-prm-blue w-full h-fit pt-[30rem] px-6 pb-[10rem]"
-        >
+        <section id="our-firm-section" className="bg-ang-prm-blue w-full h-fit pt-[30rem] px-6 pb-[5rem]">
           <div className="h-[1px] w-full bg-white"></div>
 
           {/* Our Firm Content */}
           <div className="flex w-full gap-y-4 items-start mt-14 flex-col">
-            <div className="flex gap-x-4 items-center w-fit pt-2">
+            <div
+              onClick={() => navigate("/our-firm")}
+              className="flex gap-x-4 items-center w-fit pt-2 hover:underline text-white  transition-all cursor-pointer"
+            >
               <img src={IconAnagata} alt="icon-anagata" className="h-6" />
-              <h1 className=" text-white text-[18px]">Our Firm</h1>
+              <h1 className=" text-white text-[1.2rem]">Our Firm</h1>
+              <BsArrowUpRight className="size-5" />
             </div>
 
             <div className="flex flex-col gap-y-4 flex-1">
               <h1 className="text-white text-[32px] w-full">
-                At Anagata, <br /> we understand the complexities of today's
-                business landscape.
+                At Anagata, <br /> we understand the complexities of today's business landscape.
               </h1>
 
               <h1 className="text-white text-[16px] font-light leading-9">
-                Our team of experienced attorneys provides comprehensive legal
-                strategies tailored to support growth and navigate complex
-                challenges. We serve a diverse clientele, from startups laying
-                their legal foundations to multinational corporations requiring
-                sophisticated counsel.
+                Our team of experienced attorneys provides comprehensive legal strategies tailored to support growth and
+                navigate complex challenges. We serve a diverse clientele, from startups laying their legal foundations to
+                multinational corporations requiring sophisticated counsel.
               </h1>
-
-              <Button
-                children
-                onClick={() => navigate("/our-firm")}
-                className="button-outline-white w-fit mt-4"
-              >
-                <h1>Discover Our Firm</h1>
-                <BsArrowUpRight />
-              </Button>
             </div>
+
+            <Button children onClick={() => navigate("/our-success-stories")} className="button-outline-white w-fit mt-6">
+              <h1 className="text-[1.1rem]">Our Client Success Stories</h1>
+              <BsArrowUpRight />
+            </Button>
           </div>
 
-          {/* Our Practice Areas */}
-          <section
-            id="our-practices-areas"
-            className="w-full mt-[6rem] flex gap-x-2 flex-col"
-          >
-            <div className="flex h-[16rem] justify-center items-center">
-              <div className="relative w-full">
-                <div className="bg-gradient-to-t from-ang-prm-red/70 to-ang-prm-blue/30 w-full h-full absolute rounded-3xl z-10"></div>
-                <div className="bg-gray-900/70 absolute w-full h-full rounded-3xl"></div>
-                <img
-                  src={dataPracticeAreas[indexImage]?.image}
-                  alt=""
-                  className="w-full h-[16rem] rounded-3xl object-cover"
-                />
-              </div>
+          {/* Statistics */}
+          {/* <div className="flex gap-x-12 text-white flex-wrap">
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.2 }}
+              className="flex flex-col items-start"
+            >
+              <h1 className="text-[9rem]">
+                <AnimatedCounter value={95} suffix="%" />
+              </h1>
+              <h4 className="text-[1rem] font-light">Client Success Rate</h4>
+            </motion.div>
+            <motion.div
+              initial={{ opacity: 0, y: 20 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: 0.4 }}
+              className="flex flex-col items-start"
+            >
+              <h1 className="text-[9rem]">
+                <AnimatedCounter value={9} suffix="/10" />
+              </h1>
+              <h4 className="text-[1rem] font-light">Client Recommend</h4>
+            </motion.div>
+          </div> */}
 
-              <div className="absolute flex flex-col gap-y-4 p-7 z-10 justify-center items-center">
-                <div className="flex gap-x-4 items-center">
-                  <img src={IconAnagata} alt="icon-anagata" className="h-5" />
-                  <h1 className="text-white font-semibold text-[18px]">
-                    Our Practice Areas
-                  </h1>
-                </div>
-
-                <h1 className="font-normal text-[18px] text-white text-center">
-                  Anagata offers capability and <br /> resources as a full
-                  services firm
-                </h1>
-
-                <Button
-                  onClick={() => navigate("/our-practice-areas")}
-                  className="button-outline-white-black-2 w-fit mt-3"
-                >
-                  <h1 className="text-[14px]">More Practice Areas</h1>
-                  <BsArrowUpRight />
-                </Button>
-              </div>
+          {/* <div className="flex flex-col w-full items-center justify-center mt-20">
+            <div className="flex gap-x-4 w-full justify-center items-center">
+              <img src={IconAnagata} alt="icon-anagata" className="h-6" />
+              <h1 className="text-white text-[24px] font-sans font-light">Our Happy Client</h1>
             </div>
 
-            <div className="flex-1 px-1 mt-7 flex-col">
-              <div className="flex flex-col gap-y-2 mb-4">
-                <h1 className="text-ang-prm-red font-bold text-[28px]">
-                  Our Core Practices
-                </h1>
-                <div className="h-[0.9px] w-full bg-ang-prm-red/80"></div>
-              </div>
-              {dataPracticeAreas?.map((data, index) => {
-                return (
-                  <Accordion
-                    key={index}
-                    open={open === data?.id}
-                    icon={<Icon id={data?.id} open={open} />}
-                  >
-                    <AccordionHeader
-                      onClick={() => {
-                        handleOpen(data.id);
-                        setIndexImage(data.id - 1);
-                      }}
-                      className={`text-white font-sans text-[24px] font-bold hover:text-gray-400`}
-                    >
-                      <h1
-                        dangerouslySetInnerHTML={{ __html: data.title }}
-                        className="w-full"
-                      ></h1>
-                    </AccordionHeader>
-                    <AccordionBody className="text-white font-extralight text-[18px] leading-8">
-                      <p
-                        dangerouslySetInnerHTML={{
-                          __html:
-                            data.description.first_line +
-                            data.description.second_line,
-                        }}
-                      ></p>
-
-                      <Button
-                        children
-                        onClick={() =>
-                          navigate("/our-practice-areas/" + data.slug)
-                        }
-                        className="button-outline-white w-fit mt-6"
-                      >
-                        <h1>Learn More</h1>
-                        <BsArrowUpRight />
-                      </Button>
-                    </AccordionBody>
-                  </Accordion>
-                );
+            <div className="flex gap-10 flex-wrap items-center justify-center mt-14">
+              {Array.from({ length: 8 }).map((_, index) => {
+                return <img key={"logo-dummy-" + index} src={logoDummy.Client1} alt="logo-dummy" className="" />;
               })}
             </div>
-          </section>
+
+            <Button children onClick={() => navigate("/our-success-stories")} className="button-outline-white w-fit mt-20 ">
+              <h1 className="text-[1.1rem]">Discover Their Success Story</h1>
+              <BsArrowUpRight />
+            </Button>
+          </div> */}
         </section>
 
         {/* Why Choose Anagata Content */}
-        <section
-          id="why-choose-anagata"
-          className="w-full h-fit px-6 pb-[8rem] mt-12"
-        >
+        <section id="why-choose-anagata" className="w-full h-fit px-6 pb-[8rem] mt-12">
           <div className="flex w-full gap-x-20 items-start mt-8 flex-col">
-            <div className="flex gap-x-4 w-full items-center mb-4">
+            <div data-aos="fade-up" data-aos-delay="300" className="flex w-full justify-center items-center gap-x-4">
               <img src={IconAnagata} alt="icon-anagata" className="h-6" />
-              <h1 className="text-ang-prm-black text-[18px]">
-                Why Choose Anagata
-              </h1>
-            </div>
-
-            <div className="grid grid-cols-1 w-full mt-3 gap-4">
-              <div className="">
-                <h1 className="text-[24px] font-light">
-                  With the combination of decades of experience, Anagata is
-                  ready to offer you solutions to all complex{" "}
-                  <b className="text-ang-prm-red underline">legal matters.</b>
-                </h1>
-              </div>
-              <div className="bg-white shadow-g-sm w-full h-[15rem] rounded-3xl relative p-7">
-                <img
-                  src={LogoAnagataWhySection}
-                  alt=""
-                  className="h-[5rem] absolute bottom-0 right-0 rounded-br-3xl"
-                />
-                <p className="text-ang-prm-black w-[80%] text-[18px] font-light">
-                  Our local Lawyers, with International reach and exposure, are
-                  well-equipped to help clients expand into established and
-                  emerging markets.
-                </p>
-              </div>
-              <div className="bg-white shadow-g-sm w-full h-[15rem] rounded-3xl relative p-7">
-                <img
-                  src={LogoAnagataWhySection}
-                  alt=""
-                  className="h-[5rem] absolute bottom-0 right-0 rounded-br-3xl"
-                />
-                <p className="text-ang-prm-black w-[80%] text-[18px] font-light">
-                  Anagata delivers client-centered legal excellence with
-                  transparency, integrity, and innovation, staying aligned with
-                  industry trends to remain relevant.
-                </p>
-              </div>
-              <div className="bg-white shadow-g-sm w-full h-[15rem] rounded-3xl relative p-7">
-                <img
-                  src={LogoAnagataWhySection}
-                  alt=""
-                  className="h-[5rem] absolute bottom-0 right-0 rounded-br-3xl"
-                />
-                <p className="text-ang-prm-black w-[80%] text-[18px] font-light">
-                  Our team structure ensures effective communication between you
-                  and your Partner directly, facilitating the achievement of
-                  your business goal.
-                </p>
-              </div>
-            </div>
-
-            <div className="h-[1px] w-full bg-ang-prm-black/30 mt-16 mb-16"></div>
-
-            <div
-              data-aos="fade-up"
-              data-aos-delay="300"
-              className="flex w-full justify-center items-center gap-x-4"
-            >
-              <img src={IconAnagata} alt="icon-anagata" className="h-6" />
-              <h1 className="text-ang-prm-black text-[18px] font-sans font-light">
-                Accolades
-              </h1>
+              <h1 className="text-ang-prm-black text-[18px] font-sans font-light">Accolades</h1>
             </div>
 
             <div
@@ -429,86 +329,99 @@ const MobileHomePage = () => {
               className="grid grid-cols-3 md:flex w-full items-center justify-between mt-12 gap-10"
             >
               <div className="flex justify-center items-center">
-                <img
-                  data-aos="fade-up"
-                  src={Award1}
-                  alt=""
-                  className="h-20 object-contain"
-                />
+                <img data-aos="fade-up" src={Award1} alt="" className="h-20 object-contain" />
               </div>
               <div className="flex justify-center items-center">
-                <img
-                  data-aos="fade-up"
-                  data-aos-delay="100"
-                  src={Award2}
-                  alt=""
-                  className="h-20 object-contain"
-                />
+                <img data-aos="fade-up" data-aos-delay="100" src={Award2} alt="" className="h-20 object-contain" />
               </div>
               <div className="flex justify-center items-center">
-                <img
-                  data-aos="fade-up"
-                  data-aos-delay="200"
-                  src={Award3}
-                  alt=""
-                  className="h-20 object-contain"
-                />
+                <img data-aos="fade-up" data-aos-delay="200" src={Award3} alt="" className="h-20 object-contain" />
               </div>
               <div className="flex justify-center items-center">
-                <img
-                  data-aos="fade-up"
-                  data-aos-delay="300"
-                  src={Award5}
-                  alt=""
-                  className="h-28 object-contain"
-                />
+                <img data-aos="fade-up" data-aos-delay="300" src={Award5} alt="" className="h-28 object-contain" />
               </div>
               <div className="flex justify-center items-center">
-                <img
-                  data-aos="fade-up"
-                  data-aos-delay="400"
-                  src={Award7}
-                  alt=""
-                  className="h-24 object-contain"
-                />
+                <img data-aos="fade-up" data-aos-delay="400" src={Award7} alt="" className="h-24 object-contain" />
               </div>
               <div className="flex justify-center items-center">
-                <img
-                  data-aos="fade-up"
-                  data-aos-delay="500"
-                  src={Award6}
-                  alt=""
-                  className="h-20 object-contain"
-                />
+                <img data-aos="fade-up" data-aos-delay="500" src={Award6} alt="" className="h-20 object-contain" />
               </div>
               <div className="flex w-full col-span-3 justify-center items-center gap-x-8">
-                <img
-                  data-aos="fade-up"
-                  data-aos-delay="400"
-                  src={Award8}
-                  alt=""
-                  className="h-24 object-contain"
-                />
-                <img
-                  data-aos="fade-up"
-                  data-aos-delay="400"
-                  src={Award9}
-                  alt=""
-                  className="h-24 object-contain"
-                />
+                <img data-aos="fade-up" data-aos-delay="400" src={Award8} alt="" className="h-20 object-contain" />
+                <img data-aos="fade-up" data-aos-delay="400" src={Award9} alt="" className="h-20 object-contain -mx-3" />
+                <img data-aos="fade-up" data-aos-delay="400" src={Award10} alt="" className="h-20 object-contain" />
+              </div>
+              <div className="flex w-full col-span-3 justify-center items-center gap-x-8 -mt-6">
+                <img data-aos="fade-up" data-aos-delay="500" src={Award11} alt="" className="w-[7.3rem]" />
+                <img data-aos="fade-up" data-aos-delay="500" src={Award12} alt="" className="w-[7.3rem] -ml-7" />
               </div>
             </div>
 
+            <div data-aos="fade-up" className="w-full justify-center flex mt-20">
+              <Button onClick={() => navigate("/our-practice-areas")} children className="button-outline-red-2 w-fit">
+                <h1 className="text-[16px]">Discover Our Practice Areas</h1>
+                <BsArrowUpRight />
+              </Button>
+            </div>
+          </div>
+        </section>
+
+        {/* Section Our Network */}
+        <section id="section-our-network" className="bg-gray-900 w-full h-fit pt-12 px-4 pb-14 flex flex-col">
+          <div
+            data-aos="fade-up"
+            data-aos-offset="60"
+            data-aos-delay="80"
+            className="flex flex-col w-full gap-y-3 items-start"
+          >
             <div
-              data-aos="fade-up"
-              className="w-full justify-center flex mt-20"
+              onClick={() => navigate("/our-network")}
+              className="flex gap-x-2 items-center w-fit pt-1 hover:underline text-white transition-all cursor-pointer"
             >
+              <img src={IconAnagata} alt="icon-anagata" className="h-5" />
+              <h1 className="font-subtitle text-[1.2rem]">Network</h1>
+              <BsArrowUpRight className="size-4" />
+            </div>
+            <div className="flex flex-col gap-y-2 flex-1">
+              <h1 className="text-white text-xl font-light leading-snug">
+                At Anagata, we strengthen the legal landscape through strategic collaboration.
+              </h1>
+            </div>
+          </div>
+
+          <div
+            data-aos="fade-up"
+            data-aos-offset="60"
+            data-aos-delay="80"
+            className="flex flex-col mt-10 gap-y-6 text-white leading-relaxed text-sm font-light"
+          >
+            <div className="relative w-full">
+              <img
+                src={imageDummy.NetworkDummy}
+                alt="image-network"
+                className="w-full object-cover rounded-xl"
+                style={{ maxHeight: 168 }}
+              />
+              <div className="absolute inset-0 flex items-end justify-start p-3">
+                <span className="bg-white/70 text-ang-prm-blackbg px-3 py-[6px] rounded-lg flex flex-col backdrop-blur-sm">
+                  <h4 className="text-lg font-semibold">Rubicon Collective</h4>
+                  <h5 className="text-xs -mt-1.5 font-light">An alliance of independent law firms</h5>
+                </span>
+              </div>
+            </div>
+
+            <div className="flex flex-col justify-start gap-y-3">
+              <p>
+                We are aligned with a consortium of independent international firms, enabling us to combine global reach with
+                the agility of local practice, ensuring clients receive informed, consistent, and strategic legal counsel
+                worldwide.
+              </p>
+
               <Button
-                onClick={() => navigate("/our-firm")}
-                children
-                className="button-outline-red-2 w-fit"
+                onClick={() => navigate("/our-network/rubicon-collective")}
+                className="button-outline-white-black-2 w-fit mt-4 px-4 py-2 text-base flex items-center gap-x-2"
               >
-                <h1 className="text-[16px]">Discover Our Firm</h1>
+                <span className="text-[0.9rem]">Learn More</span>
                 <BsArrowUpRight />
               </Button>
             </div>
@@ -516,340 +429,104 @@ const MobileHomePage = () => {
         </section>
 
         {/* Section Our People */}
-        <section
-          id="section-our-people"
-          className="bg-ang-prm-blackbg w-full h-fit pt-[4rem] px-6 pb-[7rem] flex flex-col"
-        >
+        <section id="section-our-people" className="bg-ang-prm-blackbg w-full h-fit pt-[4rem] px-6 pb-[7rem] flex flex-col">
           <div
             data-aos="fade-up"
             data-aos-offset="100"
             data-aos-delay="100"
-            className="flex w-full items-start flex-col gap-y-4"
+            className="flex flex-col w-full gap-y-6 items-start"
           >
-            <div className="flex gap-x-4 items-center w-fit pt-2">
+            <div
+              onClick={() => navigate("/our-people")}
+              className="flex gap-x-3 items-center w-fit pt-2 hover:underline text-white transition-all cursor-pointer"
+            >
               <img src={IconAnagata} alt="icon-anagata" className="h-6" />
-              <h1 className="text-white text-[18px]">Our People</h1>
+              <h1 className="font-subtitle text-lg">People</h1>
+              <BsArrowUpRight className="size-5" />
             </div>
 
-            <div className="flex flex-col gap-y-8 flex-1">
-              <h1 className="text-white text-[24px] max-w-[90%] font-light">
-                Our lawyers are renowned in their practice areas, each bringing.
+            <div className="flex flex-col gap-y-4 w-full">
+              <h1 className="text-white text-[1.8rem] font-light leading-snug w-full">
+                Our lawyers are renowned in their practice areas, each bringing practical solutions.
               </h1>
             </div>
           </div>
 
-          <div
-            data-aos="fade-up"
-            data-aos-offset="100"
-            data-aos-delay="100"
-            className="flex flex-col gap-y-1 mt-12"
-          >
-            <h1 className="text-[24px] text-white font-bold pb-3">
-              Our Key Practices
-            </h1>
-            <div className="w-full pb-2">
-              <div className="h-[0.8px] w-full bg-white"></div>
-            </div>
-          </div>
-
-          {/* Section Each People */}
-          <Swiper
-            data-aos="fade-up"
-            data-aos-offset="100"
-            data-aos-delay="100"
-            modules={[Navigation, Pagination, Autoplay]}
-            navigation={{
-              prevEl: ".swiper-prev",
-              nextEl: ".swiper-next",
-            }}
-            spaceBetween={40}
-            speed={1000}
-            loop={true}
-            slidesPerView={"auto"}
-            autoplay={{
-              delay: 4000,
-              disableOnInteraction: false,
-              pauseOnMouseEnter: true,
-            }}
-            className="relative mt-8"
-          >
-            {/* Profile People */}
+          <div className="grid grid-cols-2 gap-6 mt-8 w-full">
             {dataKeyPeople.map((data, index) => {
               return (
                 data?.seeProfile && (
-                  <SwiperSlide key={index}>
-                    <div className="flex flex-col w-full h-fit gap-y-4 md:items-center">
-                      <img
-                        src={data?.photo}
-                        alt=""
-                        className="object-cover w-full md:w-[350px] h-[380px] rounded-3xl"
-                      />
-                      <div className="flex flex-col md:items-center md:justify-center">
-                        <h1 className="font-bold text-white text-[24px]">
-                          {data.name}
-                        </h1>
-                        <h1 className="font-normal text-[20px] text-ang-prm-red truncate-oneline">
-                          {data.title}
-                        </h1>
-                      </div>
-                      <p
-                        dangerouslySetInnerHTML={{ __html: data?.description }}
-                        className="text-white font-extralight text-[16px] truncate-fiveline leading-6 md:text-center"
-                      />
-                      <Button
-                        onClick={() => {
-                          dispatch(
-                            setDrawerPeople({
-                              drawer: true,
-                              indexPeople: index,
-                            })
-                          );
-                        }}
-                        className="button-outline-white-black w-fit mt-5"
-                      >
-                        <h1>See full profile</h1>
-                        <BsArrowUpRight />
-                      </Button>
+                  <div
+                    key={index}
+                    className="relative group cursor-pointer overflow-hidden"
+                    data-aos="fade-up"
+                    data-aos-delay={index * 100}
+                    onClick={() => {
+                      dispatch(
+                        setDrawerPeople({
+                          drawer: true,
+                          indexPeople: index,
+                        })
+                      );
+                    }}
+                  >
+                    <img src={data?.photo} alt="" className="rounded-lg w-full h-auto aspect-[3/4] object-cover" />
+                    <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-[92%] bg-white/80 flex cursor-pointer flex-col items-start pl-3 pr-1 py-3 rounded-lg text-gray-900 shadow-md backdrop-blur-sm">
+                      <h1 className="font-bold text-base text-left truncate w-full">{data?.name}</h1>
+                      <p className="font-light text-left text-xs w-full truncate">{data?.title}</p>
                     </div>
-                  </SwiperSlide>
+                  </div>
                 )
               );
             })}
-          </Swiper>
-
-          {/* Custom Navigation */}
-          <div className="flex w-full items-center gap-x-4 mt-12 md:justify-center">
-            <BsArrowLeftCircle className="swiper-prev size-10 text-white cursor-pointer" />
-            <div className="flex-1 lg:flex gap-x-5 hidden">
-              {[0, 1, 2].map((index) => (
-                <div
-                  key={index}
-                  id="dots-pagination"
-                  className={`h-[1px] w-full cursor-pointer ${
-                    swiperIndex === index ? "bg-white" : "bg-white/50"
-                  }`}
-                  onClick={() => {
-                    if (swiperRef.current) {
-                      swiperRef.current.slideToLoop(index); // Use slideToLoop for looped slides
-                    }
-                  }}
-                ></div>
-              ))}
-            </div>
-            <BsArrowRightCircle className="swiper-next size-10 text-white cursor-pointer" />
           </div>
 
-          <div
-            data-aos="fade-up"
-            data-aos-offset="100"
-            className="flex flex-col gap-y-1 mt-20"
-          >
-            <h1 className="text-[24px] text-white font-bold pb-3">
-              Other Highly Motivated Individuals
-            </h1>
+          <div data-aos="fade-up" data-aos-offset="100" className="flex flex-col gap-y-1 mt-20">
+            <h1 className="text-[24px] text-white font-bold pb-3">Other Highly Motivated Individuals</h1>
             <div className="w-full pb-2">
               <div className="h-[0.8px] w-full bg-white"></div>
             </div>
           </div>
 
-          <div
-            data-aos="fade-up"
-            data-aos-offset="100"
-            className="w-full grid grid-cols-1 py-8 gap-y-3"
-          >
+          <div data-aos="fade-up" data-aos-offset="100" className="w-full grid grid-cols-1 py-8 gap-y-3">
             {dataSupportPeople?.map((data, index) => {
               return (
                 data?.category === 1 && (
-                  <div
-                    key={"support-people-1" + index}
-                    className="flex gap-x-4 text-white items-center"
-                  >
-                    <h1 className="text-[24px]">⁠{data?.name}</h1>
+                  <div key={"support-people-1" + index} className="flex gap-x-4 text-white items-center">
+                    <h1 className="text-[20px]">⁠{data?.name}</h1>
                     <h1>-</h1>
-                    <h1 className="font-light">{data?.title}</h1>
+                    <h1 className="font-light text-gray-400">{data?.title}</h1>
                   </div>
                 )
               );
             })}
           </div>
-          <div
-            data-aos="fade-up"
-            data-aos-offset="100"
-            className="w-full pl-3 pb-2"
-          >
+          <div data-aos="fade-up" data-aos-offset="100" className="w-full pl-3 pb-2">
             <div className="h-[0.8px] w-full bg-white"></div>
           </div>
-          <div
-            data-aos="fade-up"
-            data-aos-offset="100"
-            className="w-full grid grid-cols-1 pt-8 pb-4 gap-y-3"
-          >
+          <div data-aos="fade-up" data-aos-offset="100" className="w-full grid grid-cols-1 pt-8 pb-4 gap-y-3">
             {dataSupportPeople?.map((data, index) => {
               return (
                 data?.category === 2 && (
-                  <div
-                    key={"support-people-1" + index}
-                    className="flex gap-x-4 text-white items-center"
-                  >
-                    <h1 className="text-[24px]">⁠{data?.name}</h1>
+                  <div key={"support-people-1" + index} className="flex gap-x-4 text-white items-center flex-wrap">
+                    <h1 className="text-[20px]">⁠{data?.name}</h1>
                     <h1>-</h1>
-                    <h1 className="font-light">{data?.title}</h1>
+                    <h1 className="font-light text-gray-400">{data?.title}</h1>
                   </div>
                 )
               );
             })}
-          </div>
-
-          <div
-            data-aos="fade-up"
-            data-aos-offset="100"
-            className="w-full flex justify-center items-center mt-12"
-          >
-            <Button
-              children
-              onClick={() => navigate("/our-people")}
-              className="button-outline-white-black-2 w-fit mt-4 text-[16px]"
-            >
-              <h1>Discover More Our People</h1>
-              <BsArrowUpRight />
-            </Button>
-          </div>
-        </section>
-
-        {/* Section Our Location */}
-        <section
-          id="section-our-location"
-          className="bg-white w-full h-fit pt-[4rem] px-6 pb-[7rem] flex flex-col"
-        >
-          <div
-            data-aos="fade-up"
-            data-aos-offset="100"
-            className="flex w-full gap-y-8 items-start flex-col"
-          >
-            <div className="flex gap-x-4 items-center w-fit pt-2">
-              <img
-                src={IconAnagata}
-                alt="icon-anagata"
-                className="h-6 object-contain"
-              />
-              <h1 className="text-ang-prm-black text-[14px]">Our Location</h1>
-            </div>
-
-            <div className="flex flex-col gap-y-8 flex-1">
-              <h1 className="text-ang-prm-black text-[24px] max-w-[90%] font-light">
-                Our office is strategically located, ensuring easy access to
-                exceptional legal services.
-              </h1>
-            </div>
-          </div>
-
-          <div
-            data-aos="fade-up"
-            data-aos-offset="100"
-            className="h-[1px] w-full bg-ang-prm-black/30 mt-12 mb-8"
-          ></div>
-
-          <div className="w-full grid grid-cols-1 gap-8 mt-4">
-            <div
-              data-aos="fade-up"
-              data-aos-offset="100"
-              className="flex flex-col relative h-[450px] w-full items-center justify-center shadow-g-sm group overflow-hidden rounded-3xl"
-            >
-              <img
-                src={BgJakarta}
-                alt=""
-                className="w-full h-full rounded-3xl object-cover group-hover:scale-110 transition-all"
-              />
-
-              <div className="absolute flex flex-col p-8">
-                <div className="flex gap-x-3 items-start justify-start">
-                  <img
-                    src={IconAnagata}
-                    alt="icon-anagata"
-                    className="h-6 w-fit object-contain"
-                  />
-                  <h1 className="text-[18px] font-bold text-white">
-                    Jakarta, Sudirman
-                  </h1>
-                </div>
-                <p className="text-white text-[16px] font-light mt-4 leading-7">
-                  Sudirman, a key thoroughfare in Jakarta, Indonesia, is named
-                  after national hero General Sudirman. Running through the
-                  heart of the city, it serves as a major commercial hub and
-                  central business district (CBD).
-                </p>
-                <Button
-                  children
-                  className="button-outline-white-black w-fit mt-8"
-                  onClick={() =>
-                    window.open(
-                      "https://maps.app.goo.gl/vK155Ge4cGQ8fxqH9",
-                      "_blank"
-                    )
-                  }
-                >
-                  <h1>Our Location in Jakarta</h1>
-                  <BsArrowUpRight />
-                </Button>
-              </div>
-            </div>
-            <div
-              data-aos="fade-up"
-              data-aos-offset="200"
-              className="flex flex-col relative h-[450px] w-full items-center justify-center shadow-g-sm group overflow-hidden rounded-3xl"
-            >
-              <img
-                src={BgSurabaya}
-                alt=""
-                className="w-full h-full rounded-3xl object-cover group-hover:scale-110 transition-all"
-              />
-
-              <div className="absolute flex flex-col p-8">
-                <div className="flex gap-x-3 items-start justify-start">
-                  <img
-                    src={IconAnagata}
-                    alt="icon-anagata"
-                    className="h-6 w-fit object-contain"
-                  />
-                  <h1 className="text-[18px] font-bold text-white">
-                    Surabaya, East Java
-                  </h1>
-                </div>
-                <p className="text-white text-[16px] font-light mt-4 leading-7">
-                  Anagata’s East Indonesian desk in Surabaya, East Java is a
-                  strategic hub connecting East Indonesia to key developments,
-                  including Ibu Kota Nusantara (IKN), providing legal expertise
-                  to support regional growth.
-                </p>
-                <Button
-                  children
-                  className="button-outline-white-black w-fit mt-8"
-                  onClick={() =>
-                    window.open(
-                      "https://maps.app.goo.gl/dK3ALQwRkTtbmjZw9",
-                      "_blank"
-                    )
-                  }
-                >
-                  <h1>Our Location in Surabaya</h1>
-                  <BsArrowUpRight />
-                </Button>
-              </div>
-            </div>
           </div>
         </section>
 
         {/* Section Contact Us */}
         <section
-          id="section-contact-us"
-          className="bg-ang-prm-red w-full h-[50rem] -mt-[45rem] pt-[41rem] px-6 pb-[28rem]"
+          id="other-practices-section"
+          className="w-full flex bg-ang-prm-red px-4 lg:px-24 h-fit flex-col gap-y-6 py-6"
         >
-          <div
-            data-aos="fade-up"
-            className="h-[1px] w-full bg-white my-4 mb-16"
-          ></div>
-
-          <ContactUs noPadding={true} className={"-my-10"} />
+          <div data-aos="fade-up" data-aos-offset="100" className="w-full relative">
+            <ContactUs noPadding />
+          </div>
         </section>
 
         {/* Footer Content */}

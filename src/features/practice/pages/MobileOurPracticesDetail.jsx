@@ -27,16 +27,10 @@ const MobileOurPracticesDetail = () => {
   const { slug } = useParams();
   const navigate = useNavigate();
   const dataDetail = dataPracticeAreas?.find((data) => data.slug === slug);
-  const otherPractices = dataPracticeAreas?.filter(
-    (data) => data.slug !== slug
-  );
-  const dataOurPeople = dataKeyPeople?.filter((person) =>
-    dataDetail?.ourPeople?.includes(person?.id)
-  );
+  const otherPractices = dataPracticeAreas?.filter((data) => data.slug !== slug);
+  const dataOurPeople = dataKeyPeople?.filter((person) => dataDetail?.ourPeople?.includes(person?.id));
   const dataDetailSpecialist = openDialog
-    ? dataDetail?.specialistServiceArea?.find(
-        (find) => find?.id === specialistIndex
-      )
+    ? dataDetail?.specialistServiceArea?.find((find) => find?.id === specialistIndex)
     : "";
 
   useEffect(() => {
@@ -48,9 +42,7 @@ const MobileOurPracticesDetail = () => {
     return () => Aos.refresh();
   }, []);
 
-  const { leftColumn, rightColumn } = splitIntoTwoColumns(
-    dataDetail?.specialistServiceArea
-  );
+  const { leftColumn, rightColumn } = splitIntoTwoColumns(dataDetail?.specialistServiceArea);
 
   const renderNotableCredentials = (notableCredentials) => {
     const chunkArray = (arr, size) => {
@@ -62,15 +54,8 @@ const MobileOurPracticesDetail = () => {
     const chunks = chunkArray(notableCredentials, 7);
 
     return chunks.map((chunk, chunkIndex) => (
-      <div
-        className="overflow-auto snap-x snap-mandatory"
-        key={`chunk-${chunkIndex}`}
-      >
-        <div
-          data-aos="fade-up"
-          data-aos-delay="100"
-          className="w-fit flex gap-x-4 mt-2 snap-always snap-start"
-        >
+      <div className="overflow-auto snap-x snap-mandatory" key={`chunk-${chunkIndex}`}>
+        <div data-aos="fade-up" data-aos-delay="100" className="w-fit flex gap-x-4 mt-2 snap-always snap-start">
           {chunk?.map((data, index) => (
             <CardNotablePractice
               key={`notablePractice-${chunkIndex}-${index}`}
@@ -86,16 +71,9 @@ const MobileOurPracticesDetail = () => {
   return (
     <>
       <MainLayout className={"flex lg:hidden"}>
-        <div
-          data-aos="fade-up"
-          className="w-full bg-ang-prm-blue grid grid-cols-1 h-[725px]"
-        >
+        <div data-aos="fade-up" className="w-full bg-ang-prm-blue grid grid-cols-1 h-[725px]">
           <div className="bg-white flex w-full h-full justify-center items-center overflow-hidden relative">
-            <img
-              src={dataDetail?.image}
-              alt=""
-              className="w-full h-full object-cover"
-            />
+            <img src={dataDetail?.image} alt="" className="w-full h-full object-cover" />
           </div>
           <div className="bg-ang-prm-blues h-full flex w-full justify-center items-start flex-col px-4 -my-3 -mb-12 gap-y-4">
             <div
@@ -105,10 +83,7 @@ const MobileOurPracticesDetail = () => {
               <IoIosArrowBack className="size-5" />
               <h1 className="text-[16px]">Our Practice Areas</h1>
             </div>
-            <TextReveal
-              textSize={"text-[24px] font-bold"}
-              text={dataDetail?.title}
-            />
+            <TextReveal textSize={"text-[24px] font-bold"} text={dataDetail?.title} />
             <h1
               dangerouslySetInnerHTML={{
                 __html: dataDetail?.description?.first_line,
@@ -119,16 +94,11 @@ const MobileOurPracticesDetail = () => {
         </div>
 
         {/* Sub Categories Content */}
-        <section
-          id="sub-categories"
-          className="w-full bg-ang-prm-blackbg flex flex-col gap-y-4 px-4 pb-32 pt-12"
-        >
+        <section id="sub-categories" className="w-full bg-ang-prm-blackbg flex flex-col gap-y-4 px-4 pb-32 pt-12">
           <div className="flex flex-col gap-y-6 w-full">
             <div className="flex gap-x-4 items-start pr-4">
               <img src={IconLogo} alt="icon-anagata" className="h-5 mt-1.5" />
-              <h1 className="text-[24px] text-white">
-                Specialist Services Area
-              </h1>
+              <h1 className="text-[24px] text-white">Specialist Services Area</h1>
             </div>
           </div>
 
@@ -175,16 +145,11 @@ const MobileOurPracticesDetail = () => {
         </section>
 
         {/* Success Case */}
-        <section
-          id="succes-case"
-          className="w-full flex bg-ang-prm-white px-4 h-fit flex-col pb-14 pt-12 gap-y-6"
-        >
+        <section id="succes-case" className="w-full flex bg-ang-prm-white px-4 h-fit flex-col pb-14 pt-12 gap-y-6">
           <div className="flex flex-col gap-y-6 w-full">
             <div className="flex gap-x-4 items-center">
               <img src={IconLogo} alt="icon-anagata" className="h-5" />
-              <h1 className="text-[24px] text-ang-prm-text">
-                Notable Credentials
-              </h1>
+              <h1 className="text-[24px] text-ang-prm-text">Notable Credentials</h1>
             </div>
             <h2
               dangerouslySetInnerHTML={{
@@ -196,29 +161,15 @@ const MobileOurPracticesDetail = () => {
 
           {renderNotableCredentials(dataDetail?.notableCredentials)}
 
-          <h3
-            data-aos="fade-up"
-            data-aos-delay="100"
-            className="text-[13px] italic text-gray-600 w-[95%] leading-6"
-          >
-            <b>Note:</b> Due to strict confidentiality, we are unable to share
-            the names of our clients. However, we can provide descriptive
-            information about the clients and the types of work performed for
-            them.
+          <h3 data-aos="fade-up" data-aos-delay="100" className="text-[13px] italic text-gray-600 w-[95%] leading-6">
+            <b>Note:</b> Due to strict confidentiality, we are unable to share the names of our clients. However, we can
+            provide descriptive information about the clients and the types of work performed for them.
           </h3>
 
           {/* Banner Image Practice Area */}
-          <div
-            data-aos="fade-up"
-            data-aos-delay="100"
-            className="relative w-full h-fit rounded-2xl overflow-hidden mt-4"
-          >
+          <div data-aos="fade-up" data-aos-delay="100" className="relative w-full h-fit rounded-2xl overflow-hidden mt-4">
             <div className="absolute z-10 w-full h-full bg-ang-prm-black/30"></div>
-            <img
-              src={BannerPracticeDetail}
-              alt=""
-              className="h-[337px] object-cover rounded-2xl grayscale w-full"
-            />
+            <img src={BannerPracticeDetail} alt="" className="h-[337px] object-cover rounded-2xl grayscale w-full" />
           </div>
         </section>
 
@@ -234,15 +185,11 @@ const MobileOurPracticesDetail = () => {
               <h1 className="text-[24px] text-ang-prm-text">Our People</h1>
             </div>
             <h2 className="text-[16px] -mt-4 text-gray-600">
-              Our lawyers are renowned in their practice areas, each bringing.
+              Our lawyers are renowned in their practice areas, each bringing practical solutions.
             </h2>
           </div>
 
-          <div
-            data-aos="fade-up"
-            data-aos-delay="100"
-            className="grid grid-cols-1 w-full mt-7 gap-y-12"
-          >
+          <div data-aos="fade-up" data-aos-delay="100" className="grid grid-cols-1 w-full mt-7 gap-y-12">
             {dataOurPeople?.map((data, index) => {
               return (
                 <CardProfile
@@ -275,24 +222,16 @@ const MobileOurPracticesDetail = () => {
           <div className="flex flex-col gap-y-6 w-full">
             <div className="flex gap-x-4 items-center">
               <img src={IconLogo} alt="icon-anagata" className="h-5" />
-              <h1 className="text-[24px] text-ang-prm-text">
-                Other Practice Areas
-              </h1>
+              <h1 className="text-[24px] text-ang-prm-text">Other Practice Areas</h1>
             </div>
             <h2 className="text-[16px] text-gray-600">
-              Our team of experienced attorneys provides comprehensive legal
-              strategies tailored to support growth and navigate complex
-              challenges. We serve a diverse clientele, from startups laying
-              their legal foundations to multinational corporations requiring
-              sophisticated counsel.
+              Our team of experienced attorneys provides comprehensive legal strategies tailored to support growth and
+              navigate complex challenges. We serve a diverse clientele, from startups laying their legal foundations to
+              multinational corporations requiring sophisticated counsel.
             </h2>
           </div>
 
-          <div
-            data-aos="fade-up"
-            data-aos-delay="100"
-            className="grid grid-cols-1 w-full mt-7 gap-x-5 gap-y-12"
-          >
+          <div data-aos="fade-up" data-aos-delay="100" className="grid grid-cols-1 w-full mt-7 gap-x-5 gap-y-12">
             {/* Card Ohter Practices */}
             {otherPractices.slice(0, 4).map((data, index) => {
               return (
@@ -317,12 +256,7 @@ const MobileOurPracticesDetail = () => {
       </MainLayout>
 
       {/* Dialog for Specialist Service */}
-      <Dialog
-        size="xxl"
-        open={openDialog}
-        handler={() => setOpenDialog(false)}
-        children
-      >
+      <Dialog size="xxl" open={openDialog} handler={() => setOpenDialog(false)} children>
         <div className="p-5 w-full h-full flex flex-col fixed inset-0 overflow-scroll bg-white gap-y-4 pb-20">
           <div className="flex flex-col gap-y-4">
             <IoIosCloseCircleOutline
@@ -330,9 +264,7 @@ const MobileOurPracticesDetail = () => {
               onClick={() => setOpenDialog(false)}
             />
 
-            <h2 className="font-bold text-[24px] text-ang-prm-red max-w-[95%]">
-              {dataDetailSpecialist?.title}
-            </h2>
+            <h2 className="font-bold text-[24px] text-ang-prm-red max-w-[95%]">{dataDetailSpecialist?.title}</h2>
           </div>
 
           <div className="h-[1px] w-full border-b-[1px] border-gray-600/40 border-dashed my-2"></div>

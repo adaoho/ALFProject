@@ -3,6 +3,7 @@ import { BiSearch } from "react-icons/bi";
 import { CgMenuRight } from "react-icons/cg";
 import React, { Fragment, useEffect, useRef, useState } from "react";
 import { BsArrowUpRight, BsCircleFill } from "react-icons/bs";
+import { MdKeyboardArrowDown } from "react-icons/md";
 import MainLogo from "../../assets/logo/main_logo.png";
 import { Button, Input } from "@material-tailwind/react";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -11,7 +12,6 @@ import { toast } from "sonner";
 import { motion, AnimatePresence } from "framer-motion";
 import { MdClose } from "react-icons/md";
 import { WhitePrimaryLogo } from "../../assets/logo/export-assets";
-import { DummyImage } from "../../features/news/assets/export-assets";
 import { useDebounce } from "use-debounce";
 import { useSearchByTitle } from "../../stores/mainAction";
 import { dataKeyPeople } from "../../constant/dataKeyPeople";
@@ -20,6 +20,7 @@ import useDebouncedSearchLawyers from "../../utils/useDebounceSearchLawyer";
 import { setDrawerPeople } from "../../stores/mainSlices";
 import { useDispatch } from "react-redux";
 import useDebounceSearchPractices from "../../utils/useDebounceSearchPractices";
+import { HiOutlineArrowUpRight } from "react-icons/hi2";
 
 const Header = () => {
   const navigate = useNavigate();
@@ -34,51 +35,65 @@ const Header = () => {
   const [searchDrawer, setSearchDrawer] = useState(false);
   const [searchDrawerMobile, setSearchDrawerMobile] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [openSubMenu, setOpenSubMenu] = useState(false);
+  const [openSubMenuMobile, setOpenSubMenuMobile] = useState(null);
+  const [dataSubMenu, setDataSubMenu] = useState([]);
+  const [prevMenuIndex, setPrevMenuIndex] = useState(null);
 
   const [debouncedSearchTitle] = useDebounce(searchQuery, 1000);
-  const { data: dataAllPost, isLoading: isLoadingAllPost } =
-    useSearchByTitle(debouncedSearchTitle);
-  const filteredLawyers = useDebouncedSearchLawyers(
-    dataKeyPeople,
-    searchQuery,
-    500
-  );
-  const filteredExpertise = useDebounceSearchPractices(
-    dataPracticeAreas,
-    searchQuery
-  );
+  const { data: dataAllPost, isLoading: isLoadingAllPost } = useSearchByTitle(debouncedSearchTitle);
+  const filteredLawyers = useDebouncedSearchLawyers(dataKeyPeople, searchQuery, 500);
+  const filteredExpertise = useDebounceSearchPractices(dataPracticeAreas, searchQuery);
 
   const headerMenu = [
     {
+      id: 1,
       label: "Home",
       location: "/",
       onClick: () => navigate("/"),
     },
     {
+      id: 2,
       label: "Our Firm",
       location: "/our-firm",
       onClick: () => navigate("/our-firm"),
     },
+    { id: 3, label: "People", location: "/our-people", onClick: () => navigate("/our-people") },
     {
-      label: "Our People",
-      location: "/our-people",
-      onClick: () => navigate("/our-people"),
-    },
-    {
-      label: "Our Practice Areas",
+      label: "Practice Areas",
       location: "/our-practice-areas",
       onClick: () => navigate("/our-practice-areas"),
     },
     {
-      label: "News & Updates",
-      location: "/news-and-update",
-      onClick: () => navigate("/news-and-update"),
+      id: 4,
+      label: "Network",
+      location: "/our-network",
+      onClick: () => navigate("/our-network"),
+    },
+    {
+      id: 5,
+      label: "Updates",
+      location: "/updates",
+      onClick: () => navigate("/updates"),
+      submenu: [
+        {
+          label: "News & Updates",
+          location: "/news-and-update",
+          description: "Latest News and Publications from Anagata",
+          onClick: () => navigate("/news-and-update"),
+        },
+        {
+          label: "Anagata Delivers!",
+          location: "/our-success-stories",
+          description: "Our Success Stories with Clients",
+          onClick: () => navigate("/our-success-stories"),
+        },
+      ],
     },
   ];
 
   useEffect(() => {
-    document.body.style.overflow =
-      drawerMobile || searchMenu ? "hidden" : "auto";
+    document.body.style.overflow = drawerMobile || searchMenu ? "hidden" : "auto";
     return () => {
       document.body.style.overflow = "auto";
     };
@@ -149,57 +164,119 @@ const Header = () => {
         }`}
         id="header-section"
       >
-        <img
-          src={MainLogo}
-          onClick={() => navigate("/")}
-          alt="header-logo-anagata"
-          className="h-10 object-contain"
-        />
+        <img src={MainLogo} onClick={() => navigate("/")} alt="header-logo-anagata" className="h-10 object-contain" />
 
-        <div className="flex gap-x-4 items-center justify-center h-full flex-wrap gap-y-3 px-14">
-          {headerMenu.slice(1, 5).map((data, index) => {
+        <div className="flex gap-x-4 items-center justify-center h-full flex-wrap gap-y-3 px-14 relative ">
+          {headerMenu.slice(1, 6).map((data, index) => {
+            const hasSubMenu = Array.isArray(data.submenu) && data.submenu.length > 0;
+
             return (
               <Fragment key={index + "header"}>
                 <span
-                  onClick={
-                    location.startsWith(data.location) ? null : data.onClick
-                  }
+                  onClick={() => {
+                    if (location.startsWith(data.location)) return;
+
+                    if (hasSubMenu) {
+                      setSearchMenu(false);
+
+                      if (prevMenuIndex === index && openSubMenu) {
+                        // Clicking the same submenu while it's open - close it
+                        setOpenSubMenu(false);
+                        setPrevMenuIndex(null);
+                      } else if (openSubMenu && prevMenuIndex !== null && prevMenuIndex !== index) {
+                        // Switching from one submenu to another different submenu - animate transition
+                        setOpenSubMenu(false);
+                        setPrevMenuIndex(index);
+                        setTimeout(() => {
+                          setDataSubMenu(data?.submenu);
+                          setOpenSubMenu(true);
+                        }, 350);
+                      } else {
+                        // Opening submenu (first time, after closing, or from search menu) - no delay
+                        setPrevMenuIndex(index);
+                        setDataSubMenu(data?.submenu);
+                        setOpenSubMenu(true);
+                      }
+                    } else if (data.onClick) {
+                      data.onClick();
+                    }
+                  }}
                   className={`${
-                    location.startsWith(data.location)
-                      ? "underline"
-                      : "custom-hover-effect"
-                  }`}
+                    location.startsWith(data.location) ? "underline" : "custom-hover-effect"
+                  } flex items-center gap-1 text-[1em]`}
+                  style={{ cursor: hasSubMenu ? "pointer" : undefined }}
                 >
                   {data.label}
+                  {hasSubMenu && <MdKeyboardArrowDown />}
                 </span>
-                {headerMenu?.length !== index + 1 && (
-                  <BsCircleFill className="size-1.5 text-ang-prm-red" />
-                )}
+
+                {headerMenu?.length !== index + 1 && <BsCircleFill className="size-1.5 text-ang-prm-red" />}
               </Fragment>
             );
           })}
 
           <span
-            onClick={() => setSearchMenu(!searchMenu)}
-            className={
-              searchMenu
-                ? "custom-hover-effect-underline"
-                : "custom-hover-effect"
-            }
+            onClick={() => {
+              setSearchMenu(!searchMenu);
+              setOpenSubMenu(false);
+            }}
+            className={searchMenu ? "custom-hover-effect-underline" : "custom-hover-effect"}
           >
             <CgSearch className="size-4" />
             <span className="text-[16px]">Search</span>
           </span>
         </div>
 
-        <Button
-          onClick={() => navigate("/contact-us")}
-          children
-          className="button-red"
-        >
+        <Button onClick={() => navigate("/contact-us")} children className="button-red">
           <h1>Contact Us</h1>
         </Button>
       </section>
+
+      {/* Sub Menu Information */}
+      <AnimatePresence>
+        {openSubMenu && (
+          <section id="submenu-bar-menu" className="hidden lg:block">
+            <motion.div
+              initial={{ y: "-100%" }}
+              animate={{ y: 0 }}
+              exit={{ y: "-100%" }}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="fixed top-[6rem] w-full h-fit py-7 flex justify-start items-center gap-x-12 z-[35] bg-ang-prm-gray px-24"
+            >
+              {dataSubMenu.map((subItem, subIndex) => {
+                const isActive = location === subItem.location;
+                return (
+                  <div
+                    key={subIndex + "-submenu"}
+                    className={`flex justify-between items-center gap-x-10 px-2 transition-all 
+                      text-white ${isActive ? "" : "cursor-pointer hover:text-ang-prm-red"}
+                    `}
+                    onClick={() => {
+                      if (subItem.onClick) subItem.onClick();
+                      setOpenSubMenu(null);
+                    }}
+                  >
+                    <div className="flex flex-col gap-y-1">
+                      <span className={`text-[1rem] ${isActive ? "underline" : ""}`}>{subItem.label}</span>
+                      <span className="text-[0.8rem] font-light">{subItem.description}</span>
+                    </div>
+                    <HiOutlineArrowUpRight className="size-6 transition-all" />
+                  </div>
+                );
+              })}
+            </motion.div>
+
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setOpenSubMenu(false)}
+              transition={{ duration: 0.5, ease: "easeInOut" }}
+              className="fixed inset-0 z-20 bg-black/50"
+            ></motion.div>
+          </section>
+        )}
+      </AnimatePresence>
 
       {/* Header Mobile Version */}
       <section
@@ -208,16 +285,8 @@ const Header = () => {
         }`}
         id="header-section-mobile"
       >
-        <img
-          src={MainLogo}
-          alt="header-logo-anagata"
-          className="h-7 object-contain"
-          onClick={() => navigate("/")}
-        />
-        <CgMenuRight
-          onClick={() => setDrawerMobile(true)}
-          className="text-[1.8rem] text-ang-prm-blue"
-        />
+        <img src={MainLogo} alt="header-logo-anagata" className="h-7 object-contain" onClick={() => navigate("/")} />
+        <CgMenuRight onClick={() => setDrawerMobile(true)} className="text-[1.8rem] text-ang-prm-blue" />
       </section>
 
       {/* Search Menu */}
@@ -229,7 +298,7 @@ const Header = () => {
                 initial={{ y: "-100%" }}
                 animate={{ y: 0 }}
                 exit={{ y: "-100%" }}
-                transition={{ duration: 0.5, ease: "easeInOut" }}
+                transition={{ duration: 0.6, ease: "easeInOut" }}
                 className="fixed top-[6rem] w-full h-fit py-10 flex justify-center items-center z-[35] bg-ang-prm-gray px-24"
               >
                 <Input
@@ -263,8 +332,7 @@ const Header = () => {
                         <div className="w-full h-20 flex justify-center items-center">
                           <div className="loader"></div>
                         </div>
-                      ) : dataAllPost?.length > 0 &&
-                        searchQuery?.trim()?.length > 2 ? (
+                      ) : dataAllPost?.length > 0 && searchQuery?.trim()?.length > 2 ? (
                         <>
                           <div className="flex flex-col gap-y-3 h-fit">
                             <h2 className="text-[18px]">News & Updates</h2>
@@ -339,10 +407,7 @@ const Header = () => {
                                             <h2>{data?.name}</h2>
 
                                             <div className="text-gray-400 text-[14px] italic flex gap-x-1 group-hover:text-ang-prm-red transition-all max-w-[80%]">
-                                              Expertise:{" "}
-                                              {data?.keyPractices
-                                                ?.slice(0, 5)
-                                                ?.join(", ")}
+                                              Expertise: {data?.keyPractices?.slice(0, 5)?.join(", ")}
                                             </div>
                                           </div>
                                         </div>
@@ -359,67 +424,59 @@ const Header = () => {
                         )}
 
                       {/* Section Our People Search */}
-                      {searchQuery.trim()?.length > 2 &&
-                        filteredExpertise?.length > 0 && (
-                          <div className="flex flex-col gap-y-3 h-fit">
-                            <h2 className="text-[18px]">Our Practice Areas</h2>
-                            <div className="gap-6 grid grid-cols-1 h-fit overflow-y-auto">
-                              {filteredExpertise?.map((data, index) => {
-                                return (
-                                  <div
-                                    key={"search-our-practive" + index}
-                                    className="flex w-full justify-between items-center group cursor-pointer hover:text-ang-prm-red transition-all"
-                                    onClick={() => {
-                                      onCloseSearchBar();
-                                      navigate(
-                                        "/our-practice-areas/" + data?.slug
-                                      );
-                                      window.scrollTo({
-                                        top: 0,
-                                        left: 0,
-                                        behavior: "smooth",
-                                      });
-                                    }}
-                                  >
-                                    <div className="flex gap-x-3 items-start">
-                                      <img
-                                        src={data?.image}
-                                        alt="news-update-thumbnail"
-                                        className="size-12 rounded-lg object-cover"
-                                      />
-                                      <div className="flex flex-col w-full">
-                                        <h2>{data?.title}</h2>
+                      {searchQuery.trim()?.length > 2 && filteredExpertise?.length > 0 && (
+                        <div className="flex flex-col gap-y-3 h-fit">
+                          <h2 className="text-[18px]">Our Practice Areas</h2>
+                          <div className="gap-6 grid grid-cols-1 h-fit overflow-y-auto">
+                            {filteredExpertise?.map((data, index) => {
+                              return (
+                                <div
+                                  key={"search-our-practive" + index}
+                                  className="flex w-full justify-between items-center group cursor-pointer hover:text-ang-prm-red transition-all"
+                                  onClick={() => {
+                                    onCloseSearchBar();
+                                    navigate("/our-practice-areas/" + data?.slug);
+                                    window.scrollTo({
+                                      top: 0,
+                                      left: 0,
+                                      behavior: "smooth",
+                                    });
+                                  }}
+                                >
+                                  <div className="flex gap-x-3 items-start">
+                                    <img
+                                      src={data?.image}
+                                      alt="news-update-thumbnail"
+                                      className="size-12 rounded-lg object-cover"
+                                    />
+                                    <div className="flex flex-col w-full">
+                                      <h2>{data?.title}</h2>
 
-                                        <div className="text-gray-400 text-[14px] italic flex gap-x-1 group-hover:text-ang-prm-red transition-all">
-                                          <span>Specialist Services Area:</span>
-                                          {data?.specialistServiceArea
-                                            ?.slice(0, 2)
-                                            ?.map((text, index, array) => (
-                                              <h2 key={index}>
-                                                {text?.title}
-                                                {index !== array?.length - 1 &&
-                                                  ","}
-                                              </h2>
-                                            ))}
-                                        </div>
+                                      <div className="text-gray-400 text-[14px] italic flex gap-x-1 group-hover:text-ang-prm-red transition-all">
+                                        <span>Specialist Services Area:</span>
+                                        {data?.specialistServiceArea?.slice(0, 2)?.map((text, index, array) => (
+                                          <h2 key={index}>
+                                            {text?.title}
+                                            {index !== array?.length - 1 && ","}
+                                          </h2>
+                                        ))}
                                       </div>
                                     </div>
-
-                                    <BsArrowUpRight className="size-5" />
                                   </div>
-                                );
-                              })}
-                            </div>
-                          </div>
-                        )}
 
-                      {dataAllPost?.length == 0 &&
-                        filteredExpertise?.length == 0 &&
-                        filteredLawyers?.length == 0 && (
-                          <div className="w-full justify-center items-center flex h-14 text-white">
-                            <h1>No Data</h1>
+                                  <BsArrowUpRight className="size-5" />
+                                </div>
+                              );
+                            })}
                           </div>
-                        )}
+                        </div>
+                      )}
+
+                      {dataAllPost?.length == 0 && filteredExpertise?.length == 0 && filteredLawyers?.length == 0 && (
+                        <div className="w-full justify-center items-center flex h-14 text-white">
+                          <h1>No Data</h1>
+                        </div>
+                      )}
                     </div>
                   </motion.div>
                 </>
@@ -451,11 +508,7 @@ const Header = () => {
             <div className="fixed w-screen flex flex-col h-full p-5 py-7">
               <div className="w-full h-full flex flex-col gap-y-12 px-3 relative">
                 <div className="w-full flex justify-between items-center">
-                  <img
-                    src={WhitePrimaryLogo}
-                    alt="header-logo-anagata"
-                    className="h-7 object-contain"
-                  />
+                  <img src={WhitePrimaryLogo} alt="header-logo-anagata" className="h-7 object-contain" />
 
                   <MdClose
                     onClick={() => {
@@ -485,26 +538,72 @@ const Header = () => {
                   }}
                 />
 
-                <div className="flex flex-col w-full gap-y-8 text-white font-light text-[2rem] justify-center items-start">
-                  <div className="flex flex-col gap-y-8 items-start">
+                <div className="flex flex-col w-full gap-y-5 text-white font-light text-[1.7rem] justify-center items-start">
+                  <div className="flex flex-col gap-y-4 items-start">
                     {headerMenu.map((data, index) => {
-                      const isCurrent =
-                        data.location === "/"
-                          ? location === "/"
-                          : location.startsWith(data.location);
+                      const isCurrent = data.location === "/" ? location === "/" : location.startsWith(data.location);
+                      const hasSubMenu = Array.isArray(data.submenu) && data.submenu.length > 0;
+                      const isSubMenuOpen = openSubMenuMobile === index;
 
                       return (
-                        <span
-                          onClick={isCurrent ? null : data.onClick}
-                          key={index + "mobile-menu"}
-                          className={`${
-                            isCurrent
-                              ? "underline font-semibold"
-                              : "hover-menumobile relative w-fit"
-                          }`}
-                        >
-                          {data.label}
-                        </span>
+                        <div key={index + "mobile-menu"} className="flex flex-col gap-y-4">
+                          <span
+                            onClick={
+                              isCurrent
+                                ? null
+                                : hasSubMenu
+                                ? () => setOpenSubMenuMobile(isSubMenuOpen ? null : index)
+                                : data.onClick
+                            }
+                            className={`${
+                              isCurrent ? "underline font-semibold" : "hover-menumobile relative w-fit"
+                            } flex items-center gap-2 cursor-pointer`}
+                          >
+                            {data.label}
+                            {hasSubMenu && (
+                              <MdKeyboardArrowDown
+                                className={`size-8 transition-transform duration-300 ${isSubMenuOpen ? "rotate-180" : ""}`}
+                              />
+                            )}
+                          </span>
+
+                          {hasSubMenu && (
+                            <AnimatePresence initial={false}>
+                              {isSubMenuOpen && (
+                                <motion.div
+                                  key="mobile-submenu"
+                                  initial={{ height: 0, opacity: 0, y: -12 }}
+                                  animate={{ height: "auto", opacity: 1, y: 0 }}
+                                  exit={{ height: 0, opacity: 0, y: -12 }}
+                                  transition={{ duration: 0.3, ease: "easeInOut" }}
+                                  className="overflow-hidden flex flex-col gap-y-2 text-[1.5rem] font-light"
+                                >
+                                  {data.submenu.map((subItem, subIndex) => {
+                                    let isActiveSubMenu =
+                                      location === subItem.location || location.startsWith(subItem.location);
+                                    return (
+                                      <div
+                                        key={subIndex + "-submenu-mobile"}
+                                        className={`flex flex-col gap-y-1 cursor-pointer hover:text-ang-prm-red transition-all ${
+                                          isActiveSubMenu ? "underline" : ""
+                                        }`}
+                                        onClick={() => {
+                                          if (subItem.onClick) subItem.onClick();
+                                          setDrawerMobile(false);
+                                          setOpenSubMenuMobile(null);
+                                        }}
+                                      >
+                                        <div className="flex items-center gap-2">
+                                          <span>{subItem.label}</span>
+                                        </div>
+                                      </div>
+                                    );
+                                  })}
+                                </motion.div>
+                              )}
+                            </AnimatePresence>
+                          )}
+                        </div>
                       );
                     })}
                   </div>
@@ -577,118 +676,104 @@ const Header = () => {
                 </>
               ) : null}
 
-              {searchQuery?.trim()?.length > 2 &&
-                filteredLawyers?.length > 0 &&
-                filteredLawyers?.at(0)?.seeProfile && (
-                  <>
-                    <div className="flex flex-col gap-y-3 h-fit">
-                      <h2 className="text-[18px]">Our People</h2>
-                      <div className="gap-6 grid grid-cols-1 h-fit overflow-y-auto">
-                        {filteredLawyers?.map((data, index) => {
-                          return (
-                            data?.seeProfile && (
-                              <div
-                                key={"search-expertise" + index}
-                                className="flex w-full justify-between items-center group cursor-pointer hover:text-ang-prm-red transition-all relative"
-                                onClick={() => {
-                                  navigate("/our-people");
-                                  onCloseSearchBar();
-                                  dispatch(
-                                    setDrawerPeople({
-                                      drawer: true,
-                                      indexPeople: data?.id - 1,
-                                    })
-                                  );
-                                }}
-                              >
-                                <div className="flex gap-x-3 items-start w-full">
-                                  <img
-                                    src={data?.photo}
-                                    alt="news-update-thumbnail"
-                                    className="size-12 rounded-lg object-cover"
-                                  />
-                                  <div className="flex flex-col w-full">
-                                    <h2>{data?.name}</h2>
+              {searchQuery?.trim()?.length > 2 && filteredLawyers?.length > 0 && filteredLawyers?.at(0)?.seeProfile && (
+                <>
+                  <div className="flex flex-col gap-y-3 h-fit">
+                    <h2 className="text-[18px]">Our People</h2>
+                    <div className="gap-6 grid grid-cols-1 h-fit overflow-y-auto">
+                      {filteredLawyers?.map((data, index) => {
+                        return (
+                          data?.seeProfile && (
+                            <div
+                              key={"search-expertise" + index}
+                              className="flex w-full justify-between items-center group cursor-pointer hover:text-ang-prm-red transition-all relative"
+                              onClick={() => {
+                                navigate("/our-people");
+                                onCloseSearchBar();
+                                dispatch(
+                                  setDrawerPeople({
+                                    drawer: true,
+                                    indexPeople: data?.id - 1,
+                                  })
+                                );
+                              }}
+                            >
+                              <div className="flex gap-x-3 items-start w-full">
+                                <img
+                                  src={data?.photo}
+                                  alt="news-update-thumbnail"
+                                  className="size-12 rounded-lg object-cover"
+                                />
+                                <div className="flex flex-col w-full">
+                                  <h2>{data?.name}</h2>
 
-                                    <div className="text-gray-400 text-[14px] italic flex gap-x-1 group-hover:text-ang-prm-red transition-all max-w-[80%]">
-                                      Expertise:{" "}
-                                      {data?.keyPractices
-                                        ?.slice(0, 5)
-                                        ?.join(", ")}
-                                    </div>
+                                  <div className="text-gray-400 text-[14px] italic flex gap-x-1 group-hover:text-ang-prm-red transition-all max-w-[80%]">
+                                    Expertise: {data?.keyPractices?.slice(0, 5)?.join(", ")}
                                   </div>
                                 </div>
-
-                                <BsArrowUpRight className="size-5 absolute top-2 right-0" />
                               </div>
-                            )
-                          );
-                        })}
-                      </div>
-                    </div>
-                    <div className="h-[1px] w-full border-gray-100 border-b-[1px] border-dashed my-4"></div>
-                  </>
-                )}
 
-              {/* Section Our People Search */}
-              {searchQuery.trim()?.length > 2 &&
-                filteredExpertise?.length > 0 && (
-                  <div className="flex flex-col gap-y-3 h-fit">
-                    <h2 className="text-[18px]">Our Practice Areas</h2>
-                    <div className="gap-6 grid grid-cols-1 h-fit overflow-y-auto">
-                      {filteredExpertise?.map((data, index) => {
-                        return (
-                          <div
-                            key={"search-our-practive" + index}
-                            className="flex w-full justify-between items-center group cursor-pointer hover:text-ang-prm-red transition-all relative"
-                            onClick={() => {
-                              onCloseSearchBar();
-                              navigate("/our-practice-areas/" + data?.slug);
-                              window.scrollTo({
-                                top: 0,
-                                left: 0,
-                                behavior: "smooth",
-                              });
-                            }}
-                          >
-                            <div className="flex gap-x-3 items-start">
-                              <img
-                                src={data?.image}
-                                alt="news-update-thumbnail"
-                                className="size-12 rounded-lg object-cover"
-                              />
-                              <div className="flex flex-col w-full">
-                                <h2>{data?.title}</h2>
-
-                                <div className="text-gray-400 text-[14px] italic flex gap-x-1 group-hover:text-ang-prm-red transition-all flex-wrap max-w-[80%]">
-                                  <span>Specialist Services Area:</span>
-                                  {data?.specialistServiceArea
-                                    ?.slice(0, 2)
-                                    ?.map((text, index, array) => (
-                                      <h2 key={index}>
-                                        {text?.title}
-                                        {index !== array?.length - 1 && ","}
-                                      </h2>
-                                    ))}
-                                </div>
-                              </div>
+                              <BsArrowUpRight className="size-5 absolute top-2 right-0" />
                             </div>
-
-                            <BsArrowUpRight className="size-5 absolute right-0 top-2" />
-                          </div>
+                          )
                         );
                       })}
                     </div>
                   </div>
-                )}
+                  <div className="h-[1px] w-full border-gray-100 border-b-[1px] border-dashed my-4"></div>
+                </>
+              )}
 
-              {dataAllPost?.length == 0 &&
-                filteredExpertise?.length == 0 &&
-                filteredLawyers?.length == 0 && (
-                  <div className="w-full justify-center items-center flex h-14 text-white">
-                    <h1>No Data</h1>
+              {/* Section Our People Search */}
+              {searchQuery.trim()?.length > 2 && filteredExpertise?.length > 0 && (
+                <div className="flex flex-col gap-y-3 h-fit">
+                  <h2 className="text-[18px]">Our Practice Areas</h2>
+                  <div className="gap-6 grid grid-cols-1 h-fit overflow-y-auto">
+                    {filteredExpertise?.map((data, index) => {
+                      return (
+                        <div
+                          key={"search-our-practive" + index}
+                          className="flex w-full justify-between items-center group cursor-pointer hover:text-ang-prm-red transition-all relative"
+                          onClick={() => {
+                            onCloseSearchBar();
+                            navigate("/our-practice-areas/" + data?.slug);
+                            window.scrollTo({
+                              top: 0,
+                              left: 0,
+                              behavior: "smooth",
+                            });
+                          }}
+                        >
+                          <div className="flex gap-x-3 items-start">
+                            <img src={data?.image} alt="news-update-thumbnail" className="size-12 rounded-lg object-cover" />
+                            <div className="flex flex-col w-full">
+                              <h2>{data?.title}</h2>
+
+                              <div className="text-gray-400 text-[14px] italic flex gap-x-1 group-hover:text-ang-prm-red transition-all flex-wrap max-w-[80%]">
+                                <span>Specialist Services Area:</span>
+                                {data?.specialistServiceArea?.slice(0, 2)?.map((text, index, array) => (
+                                  <h2 key={index}>
+                                    {text?.title}
+                                    {index !== array?.length - 1 && ","}
+                                  </h2>
+                                ))}
+                              </div>
+                            </div>
+                          </div>
+
+                          <BsArrowUpRight className="size-5 absolute right-0 top-2" />
+                        </div>
+                      );
+                    })}
                   </div>
-                )}
+                </div>
+              )}
+
+              {dataAllPost?.length == 0 && filteredExpertise?.length == 0 && filteredLawyers?.length == 0 && (
+                <div className="w-full justify-center items-center flex h-14 text-white">
+                  <h1>No Data</h1>
+                </div>
+              )}
             </div>
           </motion.div>
         )}

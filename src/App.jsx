@@ -9,40 +9,107 @@ import Contact from "./features/contact/pages/Contact";
 import OurPractices from "./features/practice/pages/OurPractices";
 import OurPracticesDetail from "./features/practice/pages/OurPracticesDetail";
 import { useSelector } from "react-redux";
+import { initGA } from "./utils/analytics";
+import LayoutWithTracking from "./components/LayoutWithTracking";
+import OurNetwork from "./features/network/pages/OurNetwork";
+import OurNetworkDetail from "./features/network/pages/OurNetworkDetail";
+import OurSuccess from "./features/success/pages/OurSuccess";
 
 const App = () => {
   const { drawerPeople } = useSelector((state) => state.main);
+
+  // Initialize Google Analytics on app mount
+  useEffect(() => {
+    initGA();
+  }, []);
+
   const mainRouter = createBrowserRouter([
     {
-      element: <HomePage />,
+      element: (
+        <LayoutWithTracking>
+          <HomePage />
+        </LayoutWithTracking>
+      ),
       path: "/*",
     },
     {
-      element: <NewsUpdate />,
+      element: (
+        <LayoutWithTracking>
+          <NewsUpdate />
+        </LayoutWithTracking>
+      ),
       path: "/news-and-update/",
     },
     {
-      element: <NewsUpdateDetail />,
+      element: (
+        <LayoutWithTracking>
+          <NewsUpdateDetail />
+        </LayoutWithTracking>
+      ),
       path: "/news-and-update/:slug",
     },
     {
-      element: <OurFirm />,
+      element: (
+        <LayoutWithTracking>
+          <OurFirm />
+        </LayoutWithTracking>
+      ),
       path: "/our-firm/",
     },
     {
-      element: <OurPeople />,
+      element: (
+        <LayoutWithTracking>
+          <OurPeople />
+        </LayoutWithTracking>
+      ),
       path: "/our-people/",
     },
     {
-      element: <OurPractices />,
+      element: (
+        <LayoutWithTracking>
+          <OurPractices />
+        </LayoutWithTracking>
+      ),
       path: "/our-practice-areas/",
     },
     {
-      element: <OurPracticesDetail />,
+      element: (
+        <LayoutWithTracking>
+          <OurSuccess />
+        </LayoutWithTracking>
+      ),
+      path: "/our-success-stories",
+    },
+    {
+      element: (
+        <LayoutWithTracking>
+          <OurNetwork />
+        </LayoutWithTracking>
+      ),
+      path: "/our-network",
+    },
+    {
+      element: (
+        <LayoutWithTracking>
+          <OurNetworkDetail />
+        </LayoutWithTracking>
+      ),
+      path: "/our-network/:slug",
+    },
+    {
+      element: (
+        <LayoutWithTracking>
+          <OurPracticesDetail />
+        </LayoutWithTracking>
+      ),
       path: "/our-practice-areas/:slug",
     },
     {
-      element: <Contact />,
+      element: (
+        <LayoutWithTracking>
+          <Contact />
+        </LayoutWithTracking>
+      ),
       path: "/contact-us/",
     },
   ]);
